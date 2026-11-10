@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A.K.M Tanzir Ahmed — DevOps Engineer. Cloud, Kubernetes, CI/CD and automation. Dhaka, Bangladesh.">
+<title>A.K.M Tanzir Ahmed — DevOps Engineer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%9B</text></svg>">
+<style>
+  :root{
+    --bg:#000;
+    --panel:#0a0e17;
+    --panel2:#10151f;
+    --line:#1c2433;
+    --green:#00ff88;
+    --green-dim:#0e3a26;
+    --text:#e6edf3;
+    --muted:#8b98a9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'JetBrains Mono','Cascadia Code',Consolas,Menlo,monospace;
+    line-height:1.6;
+  }
+  a{color:var(--green);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px}
+
+  /* header */
+  header{position:sticky;top:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+  .nav{display:flex;justify-content:space-between;align-items:center;height:56px}
+  .logo{font-weight:700;color:var(--green);letter-spacing:2px}
+  .nav a{margin-left:18px;font-size:.85rem;color:var(--muted)}
+  .nav a:hover{color:var(--green)}
+
+  /* hero */
+  .hero{padding:80px 0 60px;border-bottom:1px solid var(--line)}
+  .tag{display:inline-block;border:1px solid var(--green-dim);color:var(--green);padding:2px 12px;border-radius:999px;font-size:.75rem;letter-spacing:2px;margin-bottom:18px}
+  h1{font-size:2.6rem;line-height:1.15;letter-spacing:1px}
+  h1 .accent{color:var(--green)}
+  .role{margin-top:10px;color:var(--muted);font-size:1.05rem}
+  .clock{margin-top:26px;font-size:1.4rem;color:var(--green);letter-spacing:3px}
+  .clock small{color:var(--muted);font-size:.75rem;letter-spacing:2px;display:block;margin-top:4px}
+  .cta{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{border:1px solid var(--green);color:var(--green);padding:10px 18px;border-radius:6px;font-size:.85rem;letter-spacing:1px}
+  .btn:hover{background:var(--green);color:#000;text-decoration:none}
+  .btn.ghost{border-color:var(--line);color:var(--muted)}
+  .btn.ghost:hover{background:var(--panel2);color:var(--text)}
+
+  /* sections */
+  section{padding:56px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:1.1rem;color:var(--green);letter-spacing:4px;margin-bottom:22px}
+  h2::before{content:"// ";color:var(--muted)}
+
+  .about p{color:var(--muted);max-width:640px}
+  .about b{color:var(--text)}
+
+  .skills{display:flex;flex-wrap:wrap;gap:8px}
+  .skill{border:1px solid var(--line);background:var(--panel);padding:4px 12px;border-radius:4px;font-size:.8rem;color:var(--text)}
+
+  .projects{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.projects{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;transition:border-color .2s}
+  .card:hover{border-color:var(--green)}
+  .card h3{font-size:.95rem;letter-spacing:.5px}
+  .card h3 a{color:var(--text)}
+  .card p{color:var(--muted);font-size:.8rem;margin:8px 0 10px}
+  .card .stack{display:flex;flex-wrap:wrap;gap:6px}
+  .tag2{font-size:.65rem;color:var(--green);border:1px solid var(--green-dim);border-radius:3px;padding:1px 6px}
+
+  .contact-list{list-style:none}
+  .contact-list li{margin-bottom:10px;color:var(--muted)}
+  .contact-list b{color:var(--text);display:inline-block;min-width:110px}
+
+  footer{padding:28px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">TANZIR</div>
+    <nav>
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="tag">DEVOPS ENGINEER</div>
+    <h1>A.K.M Tanzir<br><span class="accent">Ahmed</span></h1>
+    <p class="role">Cloud · Kubernetes · CI/CD · Automation</p>
+    <div class="clock"><span id="dhaka-time">--:--:--</span><small>DHAKA · BST · UTC+06:00</small></div>
+    <div class="cta">
+      <a class="btn" href="https://github.com/iamtanzir">GitHub →</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/akm-tanzir-ahmed">LinkedIn</a>
+      <a class="btn ghost" href="https://www.supportkori.com/tanzirahmed">Support me</a>
+    </div>
+  </div>
+
+  <section id="about" class="about">
+    <h2>ABOUT</h2>
+    <p>I build and run infrastructure: <b>AWS</b>, <b>Kubernetes</b>, <b>Terraform</b>, <b>GitHub Actions</b>. I like things automated, observable, and that don't break at 2am.</p>
+    <p style="margin-top:12px">Outside work I ship side projects — a laundry ERP, a multi-provider AI chat app, and an Android app for monitoring solar panels and inverters.</p>
+  </section>
+
+  <section id="stack">
+    <h2>STACK</h2>
+    <div class="skills" id="skills"></div>
+  </section>
+
+  <section id="projects">
+    <h2>PROJECTS</h2>
+    <div class="projects" id="project-list"></div>
+  </section>
+
+  <section id="contact">
+    <h2>CONTACT</h2>
+    <ul class="contact-list">
+      <li><b>Email</b> <a href="mailto:tanzir.iu@gmail.com">tanzir.iu@gmail.com</a></li>
+      <li><b>GitHub</b> <a href="https://github.com/iamtanzir">github.com/iamtanzir</a></li>
+      <li><b>LinkedIn</b> <a href="https://www.linkedin.com/in/akm-tanzir-ahmed">linkedin.com/in/akm-tanzir-ahmed</a></li>
+      <li><b>Twitter</b> <a href="https://twitter.com/tanzir786">@tanzir786</a></li>
+      <li><b>SupportKori</b> <a href="https://www.supportkori.com/tanzirahmed">supportkori.com/tanzirahmed</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> A.K.M Tanzir Ahmed · Dhaka, Bangladesh</div>
+</footer>
+
+<script>
+  const skills = ["AWS","Kubernetes","Docker","Terraform","Ansible","GitHub Actions","Argo CD","Prometheus","Grafana","Linux","Bash","Python","TypeScript","Kotlin"];
+  document.getElementById("skills").innerHTML = skills.map(s => `<span class="skill">${s}</span>`).join("");
+
+  const projects = [
+    {name:"Wash-ERP", desc:"Laundry ERP, deployed on Vercel + Turso", stack:["TypeScript"], url:"https://github.com/iamtanzir/Wash-ERP"},
+    {name:"tanzir-ai", desc:"Multi-provider AI chat (Gemini, Groq, OpenRouter, OpenAI, …)", stack:["JavaScript"], url:"https://github.com/iamtanzir/tanzir-ai"},
+    {name:"DeepSeek-v4-1-Flash-Free", desc:"DeepSeek v4.1 Flash & Coder — notes + scripts", stack:["Shell"], url:"https://github.com/iamtanzir/DeepSeek-v4-1-Flash-Free"},
+    {name:"IPS-Monitoring-System", desc:"IPS / hybrid inverter / solar monitoring", stack:["Kotlin"], url:"https://github.com/iamtanzir/IPS-Monitoring-System"},
+    {name:"LFP-Battery-Calculator", desc:"LFP battery capacity & runtime calculator", stack:["Kotlin"], url:"https://github.com/iamtanzir/LFP-Battery-Calculator"},
+    {name:"Pi-3B-setup-with-Earning-Apps", desc:"Raspberry Pi 3B + Pi-hole + Honeygain + EarnApp", stack:["DevOps"], url:"https://github.com/iamtanzir/Pi-3B-setup-with-Earning-Apps"},
+    {name:"BDIX-Tester", desc:"BDIX server access tester", stack:["Tooling"], url:"https://github.com/iamtanzir/BDIX-Tester"},
+    {name:"DNS-Server-List", desc:"Ad-block DNS list", stack:["DNS"], url:"https://github.com/iamtanzir/DNS-Server-List"},
+  ];
+  document.getElementById("project-list").innerHTML = projects.map(p => `
+    <div class="card">
+      <h3><a href="${p.url}">${p.name} →</a></h3>
+      <p>${p.desc}</p>
+      <div class="stack">${p.stack.map(s => `<span class="tag2">${s}</span>`).join("")}</div>
+    </div>`).join("");
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Live Dhaka clock (UTC+06:00, no DST)
+  function tick(){
+    const now = new Date();
+    const dhaka = new Date(now.getTime() + (6*60 + now.getTimezoneOffset()) * 60000);
+    const pad = n => String(n).padStart(2, "0");
+    const h = dhaka.getHours();
+    const meridiem = h < 12 ? "AM" : "PM";
+    const h12 = ((h + 11) % 12) + 1;
+    document.getElementById("dhaka-time").textContent =
+      `${h12}:${pad(dhaka.getMinutes())}:${pad(dhaka.getSeconds())} ${meridiem}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
