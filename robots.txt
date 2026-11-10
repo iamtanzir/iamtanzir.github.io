@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://iamtanzir.github.io/sitemap.xml
