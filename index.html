@@ -129,11 +129,11 @@
   /* sections */
   section{padding:clamp(18px,3.5vh,30px) 0;border-bottom:1px solid var(--line)}
   h2{font-size:1.05rem;color:var(--green);letter-spacing:4px;margin-bottom:12px}
-  .sec-toggle{display:flex;align-items:center;gap:10px;width:100%;background:transparent;border:0;color:var(--green);font-size:1.05rem;letter-spacing:4px;padding:4px 0;cursor:pointer;text-align:left;font-family:inherit;margin:0}
-  .sec-toggle::before{content:"// ";color:var(--muted)}
-  .sec-toggle:hover{color:#7dffb8}
-  .sec-chev{color:var(--green);font-size:1rem;transition:transform .2s;line-height:1;flex-shrink:0}
-  .sec-toggle[aria-expanded="true"] .sec-chev{transform:rotate(90deg)}
+  h2::before{content:"// ";color:var(--muted)}
+  .view{display:none}
+  .view.active{display:block;animation:viewFade .3s}
+  @keyframes viewFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .view section{border-bottom:0}
 
   .about p{color:var(--muted);max-width:680px}
   .about p + p{margin-top:8px}
@@ -209,10 +209,11 @@
   <div class="wrap nav">
     <div class="logo">TANZIR</div>
     <nav>
-      <a href="#about">about</a>
-      <a href="#experience">experience</a>
-      <a href="#projects">projects</a>
-      <a href="#contact">contact</a>
+      <a href="#about" data-view="view-about">about</a>
+      <a href="#experience" data-view="view-experience">experience</a>
+      <a href="#projects" data-view="view-projects">projects</a>
+      <a href="#certificates" data-view="view-certificates">certificates</a>
+      <a href="#contact" data-view="view-contact">contact</a>
     </nav>
   </div>
 </header>
@@ -241,17 +242,44 @@
     </div>
   </div>
 
+  <div class="view active" id="view-about">
   <section id="about" class="about">
-    <h2><button class="sec-toggle" type="button" aria-expanded="true" aria-controls="sec-about"><span class="sec-chev">▸</span>ABOUT</button></h2>
-    <div class="sec-body" id="sec-about">
+    <h2>ABOUT</h2>
     <p>I'm a <b>CS Engineer</b> working as an <b>ERP Analyst &amp; Planner</b> — 11+ years at the intersection of the factory floor and cloud infrastructure. I led the end-to-end <b>ERP rollout</b> at a composite textiles plant — syncing IoT devices to cloud-based analytics (Zilingo/zFactory, Slove8) — and now run <b>shipment-driven wash planning</b> for 10+ global buyer programs with American Eagle, H&amp;M, Primark, Next, OVS, C&amp;A, Jack &amp; Jones, and Tom Tailor.</p>
     <p>On the tooling side I like things automated, observable, and boring at 2am — <b>AWS</b>, <b>Kubernetes</b>, <b>Terraform</b>, <b>GitHub Actions</b>. I also ship my own side projects: a laundry ERP, a multi-provider AI chat app, and an Android app for monitoring solar panels and inverters.</p>
-    </div>
   </section>
 
+  <section id="stack">
+    <h2>STACK</h2>
+    <div class="skills" id="skills"></div>
+  </section>
+
+  <section id="education">
+    <h2>EDUCATION</h2>
+    <div class="edu">
+      <div class="edu-item">
+        <div class="edu-degree"><b>M.Sc</b> — Information &amp; Communication Technology</div>
+        <div class="edu-meta">Islamic University, Kushtia · Public university, Govt. of Bangladesh<br>CGPA 3.19 / 4.00 · 2022<br><a href="https://www.iu.ac.bd/" target="_blank" rel="noopener">Official site →</a></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree"><b>B.Sc</b> — Computer Science &amp; Engineering</div>
+        <div class="edu-meta">Asian University of Bangladesh · Private university, UGC-approved<br>CGPA 3.06 / 4.00 · 2019<br><a href="https://www.aub.edu.bd/" target="_blank" rel="noopener">Official site →</a></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree"><b>Dip. Eng</b> — Diploma in Engineering · Computer Technology (4-Year)</div>
+        <div class="edu-meta">Islami Bank Institute of Technology, Savar · BTEB-affiliated technical institute<br>CGPA 2.93 / 4.00 · 2015<br><a href="https://ibitsavar.edu.bd/" target="_blank" rel="noopener">Official site →</a></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree"><b>SSC</b> — Business Studies</div>
+        <div class="edu-meta">Comilla Housing Estate School &amp; College · SSC, Business Studies<br>GPA 3.69 / 5.00 · 2009<br><a href="https://teachers.gov.bd/content/details/559038" target="_blank" rel="noopener">Official site →</a></div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <div class="view" id="view-experience">
   <section id="experience">
-    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-experience"><span class="sec-chev">▸</span>EXPERIENCE</button></h2>
-    <div class="sec-body" id="sec-experience" hidden>
+    <h2>EXPERIENCE</h2>
     <div class="timeline">
       <div class="xp">
         <div class="xp-head">
@@ -297,57 +325,26 @@
         </ul>
       </div>
     </div>
-    </div>
   </section>
+  </div>
 
-  <section id="stack">
-    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-stack"><span class="sec-chev">▸</span>STACK</button></h2>
-    <div class="sec-body" id="sec-stack" hidden>
-    <div class="skills" id="skills"></div>
-    </div>
-  </section>
-
-  <section id="education">
-    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-education"><span class="sec-chev">▸</span>EDUCATION</button></h2>
-    <div class="sec-body" id="sec-education" hidden>
-    <div class="edu">
-      <div class="edu-item">
-        <div class="edu-degree"><b>M.Sc</b> — Information &amp; Communication Technology</div>
-        <div class="edu-meta">Islamic University, Kushtia · Public university, Govt. of Bangladesh<br>CGPA 3.19 / 4.00 · 2022<br><a href="https://www.iu.ac.bd/" target="_blank" rel="noopener">Official site →</a></div>
-      </div>
-      <div class="edu-item">
-        <div class="edu-degree"><b>B.Sc</b> — Computer Science &amp; Engineering</div>
-        <div class="edu-meta">Asian University of Bangladesh · Private university, UGC-approved<br>CGPA 3.06 / 4.00 · 2019<br><a href="https://www.aub.edu.bd/" target="_blank" rel="noopener">Official site →</a></div>
-      </div>
-      <div class="edu-item">
-        <div class="edu-degree"><b>Dip. Eng</b> — Diploma in Engineering · Computer Technology (4-Year)</div>
-        <div class="edu-meta">Islami Bank Institute of Technology, Savar · BTEB-affiliated technical institute<br>CGPA 2.93 / 4.00 · 2015<br><a href="https://ibitsavar.edu.bd/" target="_blank" rel="noopener">Official site →</a></div>
-      </div>
-      <div class="edu-item">
-        <div class="edu-degree"><b>SSC</b> — Business Studies</div>
-        <div class="edu-meta">Comilla Housing Estate School &amp; College · SSC, Business Studies<br>GPA 3.69 / 5.00 · 2009<br><a href="https://teachers.gov.bd/content/details/559038" target="_blank" rel="noopener">Official site →</a></div>
-      </div>
-    </div>
-    </div>
-  </section>
-
+  <div class="view" id="view-projects">
   <section id="projects">
-    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-projects"><span class="sec-chev">▸</span>PROJECTS</button></h2>
-    <div class="sec-body" id="sec-projects" hidden>
+    <h2>PROJECTS</h2>
     <div class="projects" id="project-list"></div>
-    </div>
   </section>
+  </div>
 
+  <div class="view" id="view-certificates">
   <section id="certificates">
-    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-certificates"><span class="sec-chev">▸</span>CERTIFICATES</button></h2>
-    <div class="sec-body" id="sec-certificates" hidden>
+    <h2>CERTIFICATES</h2>
     <div class="certs" id="cert-list"></div>
-    </div>
   </section>
+  </div>
 
+  <div class="view" id="view-contact">
   <section id="contact">
-    <h2><button class="sec-toggle" type="button" aria-expanded="true" aria-controls="sec-contact"><span class="sec-chev">▸</span>CONTACT</button></h2>
-    <div class="sec-body" id="sec-contact">
+    <h2>CONTACT</h2>
     <ul class="contact-list">
       <li><b>Email</b> <a href="mailto:tanzir.iu@gmail.com">tanzir.iu@gmail.com</a></li>
       <li><b>GitHub</b> <a href="https://github.com/iamtanzir">github.com/iamtanzir</a></li>
@@ -355,8 +352,15 @@
       <li><b>Twitter</b> <a href="https://twitter.com/tanzir786">@tanzir786</a></li>
       <li><b>SupportKori</b> <a href="https://www.supportkori.com/tanzirahmed">supportkori.com/tanzirahmed</a></li>
     </ul>
-    </div>
   </section>
+  </div>
+
+
+
+
+
+
+
 
 </main>
 
@@ -425,26 +429,15 @@
       <div class="stack">${p.stack.map(s => `<span class="tag2">${s}</span>`).join("")}</div>
     </div>`).join("");
 
-  document.querySelectorAll(".sec-toggle").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const body = document.getElementById(btn.getAttribute("aria-controls"));
-      const open = btn.getAttribute("aria-expanded") === "true";
-      btn.setAttribute("aria-expanded", String(!open));
-      body.hidden = open;
-    });
-  });
-  document.querySelectorAll('nav a[href^="#"]').forEach(a => {
-    a.addEventListener("click", () => {
-      const sec = document.getElementById(a.getAttribute("href").slice(1));
-      if (!sec) return;
-      const btn = sec.querySelector(".sec-toggle");
-      const body = sec.querySelector(".sec-body");
-      if (btn && body && btn.getAttribute("aria-expanded") !== "true") {
-        btn.setAttribute("aria-expanded", "true");
-        body.hidden = false;
-      }
-    });
-  });
+  const views = document.querySelectorAll(".view");
+  function showView(name) {
+    const target = document.getElementById("view-" + name) || document.getElementById("view-about");
+    views.forEach(v => v.classList.toggle("active", v === target));
+    window.scrollTo({top: 0});
+  }
+  function route() { showView((location.hash || "#about").slice(1)); }
+  window.addEventListener("hashchange", route);
+  route();
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
