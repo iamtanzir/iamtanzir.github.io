@@ -107,25 +107,23 @@
   .nav{display:flex;justify-content:space-between;align-items:center;height:56px}
   .nav .logo{display:inline-flex;align-items:center;font-weight:700;color:var(--green);letter-spacing:2px;text-decoration:none;border:1px solid var(--green-dim);padding:2px 14px;border-radius:999px;font-size:.8rem;transition:border-color .2s,box-shadow .2s}
   .nav .logo:hover{color:#fff;border-color:var(--green);box-shadow:0 0 18px rgba(0,255,136,.25);text-decoration:none}
-  .l-t{color:#00ff88}
-  .l-a{color:#ff4d4d}
-  .l-n{color:#35a2ff}
-  .l-z{color:#ffd700}
-  .l-i{color:#e6edf3}
-  .l-r{color:#ff8c1a}
-  .logo span{display:inline-block;animation:neonRoll 2.7s ease-in-out infinite}
+  .logo span{display:inline-block;animation:colorCycle 3.6s linear infinite}
   .logo .l-t{animation-delay:0s}
-  .logo .l-a{animation-delay:.45s}
-  .logo .l-n{animation-delay:.9s}
-  .logo .l-z{animation-delay:1.35s}
-  .logo .l-i{animation-delay:1.8s}
-  .logo .l-r{animation-delay:2.25s}
-  @keyframes neonRoll{
-    0%,100%{opacity:.55;text-shadow:0 0 5px currentColor}
-    8%{opacity:1;text-shadow:0 0 10px currentColor,0 0 22px currentColor,0 0 40px currentColor}
-    22%{opacity:.55;text-shadow:0 0 5px currentColor}
+  .logo .l-a{animation-delay:.6s}
+  .logo .l-n{animation-delay:1.2s}
+  .logo .l-z{animation-delay:1.8s}
+  .logo .l-i{animation-delay:2.4s}
+  .logo .l-r{animation-delay:3.0s}
+  @keyframes colorCycle{
+    0%      {color:#00ff88}
+    16.66%  {color:#ff4d4d}
+    33.33%  {color:#35a2ff}
+    50%     {color:#ffd700}
+    66.66%  {color:#e6edf3}
+    83.33%  {color:#ff8c1a}
+    100%    {color:#00ff88}
   }
-  @media (prefers-reduced-motion:reduce){.logo span{animation:none;opacity:1;text-shadow:0 0 8px currentColor}}
+  @media (prefers-reduced-motion:reduce){.logo span{animation:none;color:#00ff88}}
   .nav a{margin-left:18px;font-size:.85rem;color:var(--muted)}
   .nav a:hover{color:var(--green)}
 
