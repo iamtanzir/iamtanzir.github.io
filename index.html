@@ -254,8 +254,12 @@
   .cert-item:hover{border-color:var(--green);box-shadow:0 0 18px rgba(0,255,136,.10)}
   .skill:hover{border-color:var(--green);box-shadow:0 0 12px rgba(0,255,136,.18)}
 
-  /* tilt-ready cards */
-  .quick-card,.card{transform-style:preserve-3d;will-change:transform}
+  /* tilt-ready cards + cursor glare */
+  .quick-card,.card,.xp,.edu-item{transform-style:preserve-3d;will-change:transform;position:relative}
+  .tilt{position:relative}
+  .tilt::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(0,255,136,.14),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none;z-index:1}
+  .tilt:hover::before{opacity:1}
+  .tilt > *{position:relative;z-index:0}
 
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
@@ -526,18 +530,34 @@
     revealables.forEach(el => io.observe(el));
   }
   if (!prefersReducedMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    document.querySelectorAll(".quick-card, .card").forEach(el => {
+    document.querySelectorAll(".quick-card, .card, .xp, .edu-item").forEach(el => {
+      el.classList.add("tilt");
       el.addEventListener("mousemove", e => {
         const r = el.getBoundingClientRect();
-        const rx = ((e.clientY - r.top) / r.height - 0.5) * -8;
-        const ry = ((e.clientX - r.left) / r.width - 0.5) * 10;
-        el.style.transition = "transform .08s linear";
-        el.style.transform = `perspective(700px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        const maxR = r.width < 520 ? 7 : 12;
+        const rx = ((py - 0.5) * -2 * maxR).toFixed(2);
+        const ry = ((px - 0.5) * 2 * maxR).toFixed(2);
+        el.style.transition = "transform .08s linear, box-shadow .08s linear";
+        el.style.transform = `perspective(950px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(16px)`;
+        el.style.boxShadow = `${(-ry * 1.4).toFixed(1)}px ${(rx * -1.4 + 12).toFixed(1)}px 32px rgba(0,0,0,.5), 0 0 26px rgba(0,255,136,.15)`;
+        el.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+        el.style.setProperty("--my", (py * 100).toFixed(1) + "%");
       });
       el.addEventListener("mouseleave", () => {
-        el.style.transition = "transform .35s ease";
+        el.style.transition = "transform .5s cubic-bezier(.2,1.5,.35,1), box-shadow .5s ease";
         el.style.transform = "";
+        el.style.boxShadow = "";
       });
+    });
+  }
+  // Touch / coarse pointers: subtle press feedback instead of tilt
+  if (window.matchMedia("(hover: none), (pointer: coarse)").matches) {
+    document.querySelectorAll(".quick-card, .card, .xp, .edu-item").forEach(el => {
+      el.addEventListener("touchstart", () => { el.style.transition = "transform .18s ease"; el.style.transform = "scale(.985)"; }, { passive: true });
+      el.addEventListener("touchend", () => { el.style.transition = "transform .3s ease"; el.style.transform = ""; }, { passive: true });
+      el.addEventListener("touchcancel", () => { el.style.transform = ""; }, { passive: true });
     });
   }
 
