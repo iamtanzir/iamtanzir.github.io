@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="AKM Tanzir Ahmed — DevOps Engineer. Cloud, Kubernetes, CI/CD and automation. Dhaka, Bangladesh.">
+<meta name="description" content="AKM Tanzir Ahmed — DevOps Engineer & ERP/MIS Specialist. 11+ years in factory ERP implementation, global-buyer wash planning, cloud and automation. Dhaka, Bangladesh.">
 <meta name="author" content="AKM Tanzir Ahmed">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://iamtanzir.github.io/">
 <meta property="og:title" content="AKM Tanzir Ahmed — DevOps Engineer">
-<meta property="og:description" content="Cloud, Kubernetes, CI/CD and automation. Dhaka, Bangladesh.">
+<meta property="og:description" content="DevOps Engineer & ERP/MIS Specialist — factory ERP implementation, global-buyer wash planning, cloud and automation. Dhaka, Bangladesh.">
 <meta property="og:image" content="https://iamtanzir.github.io/og.png">
 <meta property="og:image:secure_url" content="https://iamtanzir.github.io/og.png">
 <meta property="og:image:type" content="image/png">
@@ -28,7 +28,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AKM Tanzir Ahmed — DevOps Engineer">
-<meta name="twitter:description" content="Cloud, Kubernetes, CI/CD and automation. Dhaka, Bangladesh.">
+<meta name="twitter:description" content="DevOps Engineer & ERP/MIS Specialist — factory ERP implementation, global-buyer wash planning, cloud and automation. Dhaka, Bangladesh.">
 <meta name="twitter:image" content="https://iamtanzir.github.io/og.png">
 <meta name="twitter:image:alt" content="AKM Tanzir Ahmed — DevOps Engineer">
 <meta name="twitter:creator" content="@tanzir786">
@@ -42,9 +42,14 @@
   "name": "AKM Tanzir Ahmed",
   "givenName": "AKM",
   "familyName": "Ahmed",
-  "jobTitle": "DevOps Engineer",
+  "jobTitle": "DevOps Engineer & ERP/MIS Specialist",
   "url": "https://iamtanzir.github.io/",
   "image": "https://iamtanzir.github.io/assets/tanzir-square.jpg",
+  "alumniOf": [
+    {"@type": "CollegeOrUniversity", "name": "Islamic University, Kushtia"},
+    {"@type": "CollegeOrUniversity", "name": "Asian University of Bangladesh"},
+    {"@type": "CollegeOrUniversity", "name": "Islami Bank Institute of Technology"}
+  ],
   "email": "mailto:tanzir.iu@gmail.com",
   "address": {
     "@type": "PostalAddress",
@@ -57,7 +62,7 @@
     "https://twitter.com/tanzir786",
     "https://www.supportkori.com/tanzirahmed"
   ],
-  "knowsAbout": ["AWS", "Kubernetes", "Terraform", "GitHub Actions", "Docker", "CI/CD", "DevOps", "SRE"]
+  "knowsAbout": ["AWS", "Kubernetes", "Terraform", "GitHub Actions", "Docker", "CI/CD", "DevOps", "SRE", "ERP", "MIS", "Excel", "KPI Dashboards", "SQL", "IoT"]
 }
 </script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%9B</text></svg>">
@@ -167,6 +172,28 @@
   .cert-item-foot a{color:var(--green);font-size:.72rem;letter-spacing:1px}
   .cert-item-foot a:hover{text-shadow:0 0 12px rgba(0,255,136,.5);text-decoration:none}
 
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .stat{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:6px 14px;font-size:.68rem;letter-spacing:.5px;color:var(--muted)}
+  .stat b{color:var(--green);display:block;font-size:1.05rem;letter-spacing:1px}
+
+  .timeline{display:flex;flex-direction:column;gap:10px}
+  .xp{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:12px 16px}
+  .xp-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+  .xp-role{font-size:.88rem;letter-spacing:.3px}
+  .xp-role b{color:var(--text)}
+  .xp-org{color:var(--muted);font-size:.76rem;margin-top:2px}
+  .xp-date{color:var(--green);font-size:.7rem;letter-spacing:1px;white-space:nowrap}
+  .xp ul{margin:8px 0 0 18px;color:var(--muted);font-size:.78rem;line-height:1.6}
+  .xp li{margin-bottom:3px}
+  .xp li b{color:var(--text)}
+
+  .edu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:640px){.edu{grid-template-columns:1fr}}
+  .edu-item{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:12px 16px}
+  .edu-degree{font-size:.82rem;color:var(--text);line-height:1.5}
+  .edu-degree b{color:var(--green)}
+  .edu-meta{color:var(--muted);font-size:.7rem;margin-top:6px;line-height:1.6}
+
   footer{padding:18px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
 </style>
 </head>
@@ -177,6 +204,7 @@
     <div class="logo">TANZIR</div>
     <nav>
       <a href="#about">about</a>
+      <a href="#experience">experience</a>
       <a href="#projects">projects</a>
       <a href="#contact">contact</a>
     </nav>
@@ -188,9 +216,14 @@
   <div class="hero">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="tag">DEVOPS ENGINEER</div>
+        <div class="tag">DEVOPS ENGINEER · ERP/MIS</div>
         <h1>AKM Tanzir<br><span class="accent">Ahmed</span></h1>
-        <p class="role">Cloud · Kubernetes · CI/CD · Automation</p>
+        <p class="role">Cloud · Kubernetes · ERP/MIS · Automation</p>
+        <div class="stats">
+          <div class="stat"><b>11+</b>years ERP/MIS</div>
+          <div class="stat"><b>95%+</b>on-time delivery</div>
+          <div class="stat"><b>10+</b>global buyer programs</div>
+        </div>
         <div class="clock"><span id="dhaka-time">--:--:--</span><small>DHAKA · BST · UTC+06:00</small></div>
         <div class="cta">
           <a class="btn" href="https://github.com/iamtanzir">GitHub →</a>
@@ -204,13 +237,84 @@
 
   <section id="about" class="about">
     <h2>ABOUT</h2>
-    <p>I build and run infrastructure: <b>AWS</b>, <b>Kubernetes</b>, <b>Terraform</b>, <b>GitHub Actions</b>. I like things automated, observable, and that don't break at 2am.</p>
-    <p>Outside work I ship side projects — a laundry ERP, a multi-provider AI chat app, and an Android app for monitoring solar panels and inverters.</p>
+    <p>I'm a DevOps &amp; ERP/MIS engineer with <b>11+ years</b> at the intersection of the factory floor and cloud infrastructure. I led the end-to-end factory <b>ERP/MIS rollout</b> at a composite textiles plant — syncing IoT devices to cloud-based analytics (Zilingo/zFactory, Slove8) — and now run <b>shipment-driven wash planning</b> for 10+ global buyer programs with American Eagle, H&amp;M, Primark, Next, OVS, C&amp;A, Jack &amp; Jones, and Tom Tailor.</p>
+    <p>On the tooling side I build infrastructure the way I like it: automated, observable, and boring at 2am — <b>AWS</b>, <b>Kubernetes</b>, <b>Terraform</b>, <b>GitHub Actions</b>. I write my own side projects too: a laundry ERP, a multi-provider AI chat app, and an Android app for monitoring solar panels and inverters.</p>
+  </section>
+
+  <section id="experience">
+    <h2>EXPERIENCE</h2>
+    <div class="timeline">
+      <div class="xp">
+        <div class="xp-head">
+          <span>
+            <span class="xp-role"><b>Sr. Executive — Wash Operation &amp; Central Planner</b></span>
+            <div class="xp-org">Impress-Newtex Composite Textiles Ltd. · Planning &amp; Co-Ordination · Gorai I/A, Mirzapur, Tangail</div>
+          </span>
+          <span class="xp-date">JAN 2023 — PRESENT</span>
+        </div>
+        <ul>
+          <li>Lead shipment-driven wash planning for <b>10+ global buyer programs</b> — <b>95%+ on-time delivery</b>, optimal capacity utilization in-house &amp; external units</li>
+          <li>Wash balancing, machine loading &amp; priority execution — Acid, PP-Spray, Denim &amp; specialty wash programs</li>
+          <li>Built buyer-wise &amp; wash-type-wise <b>KPI dashboards</b> for real-time management decisions; manpower, machine capacity &amp; material planning</li>
+          <li>ERP goods-flow coordination between in-house and external washing plants; <b>100% LC/PI documentation accuracy</b>, buyer-audit ready</li>
+        </ul>
+      </div>
+      <div class="xp">
+        <div class="xp-head">
+          <span>
+            <span class="xp-role"><b>Sr. Officer — MIS &amp; ERP Implementation</b></span>
+            <div class="xp-org">Impress-Newtex Composite Textiles Ltd. · MIS &amp; ERP · Gorai I/A, Mirzapur, Tangail</div>
+          </span>
+          <span class="xp-date">MAR 2015 — DEC 2022</span>
+        </div>
+        <ul>
+          <li>Ran the end-to-end factory <b>ERP implementation</b> — synced <b>IoT devices to cloud analytics</b> (Zilingo/zFactory, Slove8 Analytics)</li>
+          <li>Owned ERP production data, history tracking &amp; factory analytics dashboards; <b>&gt;95% data accuracy</b> via validation protocols</li>
+          <li>Functional support for ERP modules &amp; KPI monitoring tools — resolved <b>90%+ tier-1/2 issues</b> in-house</li>
+          <li>Cross-platform software/OS/system integration; daily system updates &amp; performance monitoring</li>
+        </ul>
+      </div>
+      <div class="xp">
+        <div class="xp-head">
+          <span>
+            <span class="xp-role"><b>Tech Support Officer</b></span>
+            <div class="xp-org">Khan IT Source · IT &amp; Customer Support · Rana Plaza, Savar, Dhaka</div>
+          </span>
+          <span class="xp-date">JAN 2017 — APR 2018</span>
+        </div>
+        <ul>
+          <li>IT infrastructure &amp; technical support — hardware setup, system configuration, LAN/WAN, OS installation</li>
+          <li>High first-contact-resolution customer technical support</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section id="stack">
     <h2>STACK</h2>
     <div class="skills" id="skills"></div>
+  </section>
+
+  <section id="education">
+    <h2>EDUCATION</h2>
+    <div class="edu">
+      <div class="edu-item">
+        <div class="edu-degree"><b>M.Sc</b> — Information &amp; Communication Technology</div>
+        <div class="edu-meta">Islamic University, Kushtia<br>CGPA 3.19 / 4.00 · 2022</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree"><b>B.Sc</b> — Computer Science &amp; Engineering</div>
+        <div class="edu-meta">Asian University of Bangladesh<br>CGPA 3.06 / 4.00 · 2019</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree"><b>Dip. Eng</b> — Diploma in Engineering · Computer Technology (4-Year)</div>
+        <div class="edu-meta">Islami Bank Institute of Technology<br>CGPA 2.93 / 4.00 · 2015</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree"><b>SSC</b> — Business Studies</div>
+        <div class="edu-meta">Comilla Housing Estate School &amp; College<br>GPA 3.69 / 5.00 · 2009</div>
+      </div>
+    </div>
   </section>
 
   <section id="projects">
@@ -281,7 +385,7 @@
     });
   });
 
-  const skills = ["AWS","Kubernetes","Docker","Terraform","Ansible","GitHub Actions","Argo CD","Prometheus","Grafana","Linux","Bash","Python","TypeScript","Kotlin"];
+  const skills = ["ERP/MIS","Zilingo/zFactory","Advanced Excel","SQL","IoT","KPI Dashboards","AWS","Kubernetes","Docker","Terraform","Ansible","GitHub Actions","Argo CD","Prometheus","Grafana","Linux","Bash","Python","TypeScript","Kotlin"];
   document.getElementById("skills").innerHTML = skills.map(s => `<span class="skill">${s}</span>`).join("");
 
   const projects = [
