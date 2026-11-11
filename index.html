@@ -43,7 +43,7 @@
   "familyName": "Ahmed",
   "jobTitle": "DevOps Engineer",
   "url": "https://iamtanzir.github.io/",
-  "image": "https://iamtanzir.github.io/og.png",
+  "image": "https://iamtanzir.github.io/assets/tanzir-square.jpg",
   "email": "mailto:tanzir.iu@gmail.com",
   "address": {
     "@type": "PostalAddress",
@@ -60,6 +60,8 @@
 }
 </script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%9B</text></svg>">
+<link rel="apple-touch-icon" href="assets/tanzir-square.jpg">
+<link rel="preload" as="image" href="assets/tanzir.jpg" fetchpriority="high">
 <style>
   :root{
     --bg:#000;
@@ -91,6 +93,9 @@
 
   /* hero */
   .hero{padding:80px 0 60px;border-bottom:1px solid var(--line)}
+  .hero-inner{display:flex;align-items:center;gap:56px}
+  .hero-text{flex:1;min-width:0}
+  .avatar{width:270px;height:auto;aspect-ratio:720/626;object-fit:cover;border-radius:12px;border:1px solid var(--line);box-shadow:0 0 0 1px rgba(0,255,136,.15),0 0 48px rgba(0,255,136,.12);background:var(--panel)}
   .tag{display:inline-block;border:1px solid var(--green-dim);color:var(--green);padding:2px 12px;border-radius:999px;font-size:.75rem;letter-spacing:2px;margin-bottom:18px}
   h1{font-size:2.6rem;line-height:1.15;letter-spacing:1px}
   h1 .accent{color:var(--green)}
@@ -116,6 +121,20 @@
 
   .projects{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   @media(max-width:640px){.projects{grid-template-columns:1fr}}
+  @media(max-width:820px){
+    .hero{padding:48px 0 40px}
+    .hero-inner{gap:24px}
+    .avatar{width:150px}
+    h1{font-size:2rem}
+  }
+  @media(max-width:480px){
+    .hero{padding:32px 0 28px}
+    .hero-inner{gap:16px}
+    .avatar{width:110px}
+    h1{font-size:1.5rem}
+    .role{font-size:.8rem}
+    .clock{font-size:1.1rem;margin-top:18px}
+  }
   .card{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;transition:border-color .2s}
   .card:hover{border-color:var(--green)}
   .card h3{font-size:.95rem;letter-spacing:.5px}
@@ -165,14 +184,19 @@
 <main class="wrap">
 
   <div class="hero">
-    <div class="tag">DEVOPS ENGINEER</div>
-    <h1>AKM Tanzir<br><span class="accent">Ahmed</span></h1>
-    <p class="role">Cloud · Kubernetes · CI/CD · Automation</p>
-    <div class="clock"><span id="dhaka-time">--:--:--</span><small>DHAKA · BST · UTC+06:00</small></div>
-    <div class="cta">
-      <a class="btn" href="https://github.com/iamtanzir">GitHub →</a>
-      <a class="btn ghost" href="https://www.linkedin.com/in/akm-tanzir-ahmed">LinkedIn</a>
-      <a class="btn ghost" href="https://www.supportkori.com/tanzirahmed">Support me</a>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="tag">DEVOPS ENGINEER</div>
+        <h1>AKM Tanzir<br><span class="accent">Ahmed</span></h1>
+        <p class="role">Cloud · Kubernetes · CI/CD · Automation</p>
+        <div class="clock"><span id="dhaka-time">--:--:--</span><small>DHAKA · BST · UTC+06:00</small></div>
+        <div class="cta">
+          <a class="btn" href="https://github.com/iamtanzir">GitHub →</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/akm-tanzir-ahmed">LinkedIn</a>
+          <a class="btn ghost" href="https://www.supportkori.com/tanzirahmed">Support me</a>
+        </div>
+      </div>
+      <img class="avatar" src="assets/tanzir.jpg" alt="AKM Tanzir Ahmed — DevOps Engineer" width="720" height="626" fetchpriority="high" decoding="async">
     </div>
   </div>
 
