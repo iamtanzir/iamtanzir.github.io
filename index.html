@@ -105,7 +105,8 @@
   /* header */
   header{position:sticky;top:0;background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
   .nav{display:flex;justify-content:space-between;align-items:center;height:56px}
-  .logo{font-weight:700;color:var(--green);letter-spacing:2px}
+  .logo{font-weight:700;color:var(--green);letter-spacing:2px;text-decoration:none}
+  .logo:hover{color:#7dffb8;text-shadow:0 0 12px rgba(0,255,136,.5);text-decoration:none}
   .nav a{margin-left:18px;font-size:.85rem;color:var(--muted)}
   .nav a:hover{color:var(--green)}
 
@@ -207,7 +208,7 @@
 
 <header>
   <div class="wrap nav">
-    <div class="logo">TANZIR</div>
+    <a class="logo" href="#about" aria-label="Go to home">TANZIR</a>
     <nav>
       <a href="#about" data-view="view-about">about</a>
       <a href="#experience" data-view="view-experience">experience</a>
