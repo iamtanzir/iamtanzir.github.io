@@ -105,8 +105,8 @@
   /* header */
   header{position:sticky;top:0;background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
   .nav{display:flex;justify-content:space-between;align-items:center;height:56px}
-  .logo{font-weight:700;color:var(--green);letter-spacing:2px;text-decoration:none}
-  .logo:hover{color:#7dffb8;text-shadow:0 0 12px rgba(0,255,136,.5);text-decoration:none}
+  .nav .logo{display:inline-flex;align-items:center;font-weight:700;color:var(--green);letter-spacing:2px;text-decoration:none;border:1px solid var(--green-dim);padding:2px 14px;border-radius:999px;font-size:.8rem;transition:border-color .2s,box-shadow .2s}
+  .nav .logo:hover{color:#7dffb8;border-color:var(--green);box-shadow:0 0 18px rgba(0,255,136,.25);text-decoration:none}
   .nav a{margin-left:18px;font-size:.85rem;color:var(--muted)}
   .nav a:hover{color:var(--green)}
 
@@ -214,7 +214,7 @@
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#home" aria-label="Go to home">TANZIR</a>
+    <a class="logo" href="#home" aria-label="Go to home">IAMTANZIR</a>
     <nav>
       <a href="#about" data-view="view-about">about</a>
       <a href="#experience" data-view="view-experience">experience</a>
