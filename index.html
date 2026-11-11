@@ -139,6 +139,13 @@
   .cert-meta p{color:var(--muted);font-size:.72rem;margin-top:6px}
   .verify{color:var(--green);font-size:.7rem;letter-spacing:1px;display:inline-block;margin-top:8px}
 
+  .cert-toggle{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;border:1px solid var(--green-dim);background:var(--panel);color:var(--green);padding:13px 16px;border-radius:8px;font-family:inherit;font-size:.8rem;letter-spacing:2px;cursor:pointer;transition:all .2s;margin-bottom:14px}
+  .cert-toggle:hover{border-color:var(--green);background:var(--green);color:#000;box-shadow:0 0 24px rgba(0,255,136,.25)}
+  .chev{font-size:1.1rem;transition:transform .25s;line-height:1}
+  .cert-toggle[aria-expanded="true"] .chev{transform:rotate(90deg)}
+  .cert-toggle-count{border:1px solid currentColor;border-radius:4px;padding:1px 8px;font-size:.7rem}
+  .cert-wrap[hidden]{display:none}
+
   footer{padding:28px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
 </style>
 </head>
@@ -187,7 +194,14 @@
 
   <section id="certificates">
     <h2>CERTIFICATES</h2>
-    <div class="certs" id="cert-list"></div>
+    <button class="cert-toggle" id="cert-toggle" type="button" aria-expanded="false" aria-controls="cert-wrap">
+      <span class="chev">▸</span>
+      <span class="cert-toggle-label">SHOW CERTIFICATES</span>
+      <span class="cert-toggle-count">12</span>
+    </button>
+    <div class="cert-wrap" id="cert-wrap" hidden>
+      <div class="certs" id="cert-list"></div>
+    </div>
   </section>
 
   <section id="contact">
@@ -231,6 +245,15 @@
         <span class="verify">${c.verify ? "VERIFY →" : "VIEW →"}</span>
       </div>
     </a>`).join("");
+
+  const toggle = document.getElementById("cert-toggle");
+  const wrap = document.getElementById("cert-wrap");
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    wrap.hidden = open;
+    toggle.querySelector(".cert-toggle-label").textContent = open ? "SHOW CERTIFICATES" : "HIDE CERTIFICATES";
+  });
 
   const skills = ["AWS","Kubernetes","Docker","Terraform","Ansible","GitHub Actions","Argo CD","Prometheus","Grafana","Linux","Bash","Python","TypeScript","Kotlin"];
   document.getElementById("skills").innerHTML = skills.map(s => `<span class="skill">${s}</span>`).join("");
