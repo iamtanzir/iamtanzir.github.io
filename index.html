@@ -128,23 +128,23 @@
   .contact-list li{margin-bottom:10px;color:var(--muted)}
   .contact-list b{color:var(--text);display:inline-block;min-width:110px}
 
-  .certs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  @media(max-width:760px){.certs{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:480px){.certs{grid-template-columns:1fr}}
-  .cert{display:block;border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;transition:border-color .2s}
-  .cert:hover{border-color:var(--green);text-decoration:none}
-  .cert img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-bottom:1px solid var(--line)}
-  .cert-meta{padding:14px}
-  .cert-meta h3{font-size:.82rem;color:var(--text);line-height:1.45;letter-spacing:.3px}
-  .cert-meta p{color:var(--muted);font-size:.72rem;margin-top:6px}
-  .verify{color:var(--green);font-size:.7rem;letter-spacing:1px;display:inline-block;margin-top:8px}
-
-  .cert-toggle{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;border:1px solid var(--green-dim);background:var(--panel);color:var(--green);padding:13px 16px;border-radius:8px;font-family:inherit;font-size:.8rem;letter-spacing:2px;cursor:pointer;transition:all .2s;margin-bottom:14px}
-  .cert-toggle:hover{border-color:var(--green);background:var(--green);color:#000;box-shadow:0 0 24px rgba(0,255,136,.25)}
-  .chev{font-size:1.1rem;transition:transform .25s;line-height:1}
-  .cert-toggle[aria-expanded="true"] .chev{transform:rotate(90deg)}
-  .cert-toggle-count{border:1px solid currentColor;border-radius:4px;padding:1px 8px;font-size:.7rem}
-  .cert-wrap[hidden]{display:none}
+  .certs{display:flex;flex-direction:column;gap:10px}
+  .cert-item{border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden}
+  .cert-item-head{display:flex;align-items:center;gap:14px;width:100%;background:transparent;border:0;color:var(--text);padding:14px 16px;cursor:pointer;text-align:left;font-family:inherit}
+  .cert-item-head:hover{color:var(--green);text-decoration:none}
+  .cert-item-chev{color:var(--green);font-size:1rem;transition:transform .2s;line-height:1;flex-shrink:0}
+  .cert-item[aria-expanded="true"] .cert-item-chev{transform:rotate(90deg)}
+  .cert-item-title{font-size:.85rem;letter-spacing:.3px;line-height:1.5}
+  .cert-item-issuer{color:var(--muted);font-size:.72rem;margin-top:4px;letter-spacing:.3px}
+  .cert-item-chev{color:var(--green)}
+  .cert-item-body{display:none;border-top:1px solid var(--line);background:#000}
+  .cert-item[aria-expanded="true"] .cert-item-body{display:block;animation:certFade .25s}
+  @keyframes certFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .cert-item-body img{width:100%;display:block}
+  .cert-item-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .cert-item-meta{color:var(--muted);font-size:.72rem}
+  .cert-item-foot a{color:var(--green);font-size:.72rem;letter-spacing:1px}
+  .cert-item-foot a:hover{text-shadow:0 0 12px rgba(0,255,136,.5);text-decoration:none}
 
   footer{padding:28px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
 </style>
@@ -194,14 +194,7 @@
 
   <section id="certificates">
     <h2>CERTIFICATES</h2>
-    <button class="cert-toggle" id="cert-toggle" type="button" aria-expanded="false" aria-controls="cert-wrap">
-      <span class="chev">▸</span>
-      <span class="cert-toggle-label">SHOW CERTIFICATES</span>
-      <span class="cert-toggle-count">12</span>
-    </button>
-    <div class="cert-wrap" id="cert-wrap" hidden>
-      <div class="certs" id="cert-list"></div>
-    </div>
+    <div class="certs" id="cert-list"></div>
   </section>
 
   <section id="contact">
@@ -236,23 +229,30 @@
     {title:"Microsoft Azure Fundamentals — Describe Cloud Concepts", issuer:"Microsoft", date:"Nov 15, 2022", img:"assets/certificates/microsoft-azure-fundamentals-describe-cloud-concepts.jpg", url:"assets/certificates/microsoft-azure-fundamentals-describe-cloud-concepts.jpg", verify:false},
     {title:"Troubleshooting in Internet Connection", issuer:"Certificate", date:"2023", img:"assets/certificates/troubleshooting-in-internet-connection.jpg", url:"assets/certificates/troubleshooting-in-internet-connection.jpg", verify:false}
   ];
-  document.getElementById("cert-list").innerHTML = certs.map(c => `
-    <a class="cert" href="${c.url}" target="_blank" rel="noopener">
-      <img src="${c.img}" alt="${c.title}" loading="lazy">
-      <div class="cert-meta">
-        <h3>${c.title}</h3>
-        <p>${c.issuer} · ${c.date}</p>
-        <span class="verify">${c.verify ? "VERIFY →" : "VIEW →"}</span>
+  document.getElementById("cert-list").innerHTML = certs.map((c, i) => `
+    <div class="cert-item" aria-expanded="false">
+      <button class="cert-item-head" type="button" aria-expanded="false" aria-controls="cert-body-${i}">
+        <span class="cert-item-chev">▸</span>
+        <span>
+          <span class="cert-item-title">${c.title}</span><br>
+          <span class="cert-item-issuer">${c.issuer} · ${c.date}</span>
+        </span>
+      </button>
+      <div class="cert-item-body" id="cert-body-${i}">
+        <img src="${c.img}" alt="${c.title}" loading="lazy">
+        <div class="cert-item-foot">
+          <span class="cert-item-meta">${c.issuer} · ${c.date}</span>
+          ${c.verify ? `<a href="${c.url}" target="_blank" rel="noopener">VERIFY →</a>` : `<a href="${c.img}" target="_blank" rel="noopener">VIEW →</a>`}
+        </div>
       </div>
-    </a>`).join("");
-
-  const toggle = document.getElementById("cert-toggle");
-  const wrap = document.getElementById("cert-wrap");
-  toggle.addEventListener("click", () => {
-    const open = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", String(!open));
-    wrap.hidden = open;
-    toggle.querySelector(".cert-toggle-label").textContent = open ? "SHOW CERTIFICATES" : "HIDE CERTIFICATES";
+    </div>`).join("");
+  document.querySelectorAll(".cert-item-head").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".cert-item");
+      const open = item.getAttribute("aria-expanded") === "true";
+      item.setAttribute("aria-expanded", String(!open));
+      btn.setAttribute("aria-expanded", String(!open));
+    });
   });
 
   const skills = ["AWS","Kubernetes","Docker","Terraform","Ansible","GitHub Actions","Argo CD","Prometheus","Grafana","Linux","Bash","Python","TypeScript","Kotlin"];
