@@ -129,7 +129,11 @@
   /* sections */
   section{padding:clamp(18px,3.5vh,30px) 0;border-bottom:1px solid var(--line)}
   h2{font-size:1.05rem;color:var(--green);letter-spacing:4px;margin-bottom:12px}
-  h2::before{content:"// ";color:var(--muted)}
+  .sec-toggle{display:flex;align-items:center;gap:10px;width:100%;background:transparent;border:0;color:var(--green);font-size:1.05rem;letter-spacing:4px;padding:4px 0;cursor:pointer;text-align:left;font-family:inherit;margin:0}
+  .sec-toggle::before{content:"// ";color:var(--muted)}
+  .sec-toggle:hover{color:#7dffb8}
+  .sec-chev{color:var(--green);font-size:1rem;transition:transform .2s;line-height:1;flex-shrink:0}
+  .sec-toggle[aria-expanded="true"] .sec-chev{transform:rotate(90deg)}
 
   .about p{color:var(--muted);max-width:680px}
   .about p + p{margin-top:8px}
@@ -238,13 +242,16 @@
   </div>
 
   <section id="about" class="about">
-    <h2>ABOUT</h2>
+    <h2><button class="sec-toggle" type="button" aria-expanded="true" aria-controls="sec-about"><span class="sec-chev">▸</span>ABOUT</button></h2>
+    <div class="sec-body" id="sec-about">
     <p>I'm a <b>CS Engineer</b> working as an <b>ERP Analyst &amp; Planner</b> — 11+ years at the intersection of the factory floor and cloud infrastructure. I led the end-to-end <b>ERP rollout</b> at a composite textiles plant — syncing IoT devices to cloud-based analytics (Zilingo/zFactory, Slove8) — and now run <b>shipment-driven wash planning</b> for 10+ global buyer programs with American Eagle, H&amp;M, Primark, Next, OVS, C&amp;A, Jack &amp; Jones, and Tom Tailor.</p>
     <p>On the tooling side I like things automated, observable, and boring at 2am — <b>AWS</b>, <b>Kubernetes</b>, <b>Terraform</b>, <b>GitHub Actions</b>. I also ship my own side projects: a laundry ERP, a multi-provider AI chat app, and an Android app for monitoring solar panels and inverters.</p>
+    </div>
   </section>
 
   <section id="experience">
-    <h2>EXPERIENCE</h2>
+    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-experience"><span class="sec-chev">▸</span>EXPERIENCE</button></h2>
+    <div class="sec-body" id="sec-experience" hidden>
     <div class="timeline">
       <div class="xp">
         <div class="xp-head">
@@ -290,15 +297,19 @@
         </ul>
       </div>
     </div>
+    </div>
   </section>
 
   <section id="stack">
-    <h2>STACK</h2>
+    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-stack"><span class="sec-chev">▸</span>STACK</button></h2>
+    <div class="sec-body" id="sec-stack" hidden>
     <div class="skills" id="skills"></div>
+    </div>
   </section>
 
   <section id="education">
-    <h2>EDUCATION</h2>
+    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-education"><span class="sec-chev">▸</span>EDUCATION</button></h2>
+    <div class="sec-body" id="sec-education" hidden>
     <div class="edu">
       <div class="edu-item">
         <div class="edu-degree"><b>M.Sc</b> — Information &amp; Communication Technology</div>
@@ -317,20 +328,26 @@
         <div class="edu-meta">Comilla Housing Estate School &amp; College · SSC, Business Studies<br>GPA 3.69 / 5.00 · 2009<br><a href="https://teachers.gov.bd/content/details/559038" target="_blank" rel="noopener">Official site →</a></div>
       </div>
     </div>
+    </div>
   </section>
 
   <section id="projects">
-    <h2>PROJECTS</h2>
+    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-projects"><span class="sec-chev">▸</span>PROJECTS</button></h2>
+    <div class="sec-body" id="sec-projects" hidden>
     <div class="projects" id="project-list"></div>
+    </div>
   </section>
 
   <section id="certificates">
-    <h2>CERTIFICATES</h2>
+    <h2><button class="sec-toggle" type="button" aria-expanded="false" aria-controls="sec-certificates"><span class="sec-chev">▸</span>CERTIFICATES</button></h2>
+    <div class="sec-body" id="sec-certificates" hidden>
     <div class="certs" id="cert-list"></div>
+    </div>
   </section>
 
   <section id="contact">
-    <h2>CONTACT</h2>
+    <h2><button class="sec-toggle" type="button" aria-expanded="true" aria-controls="sec-contact"><span class="sec-chev">▸</span>CONTACT</button></h2>
+    <div class="sec-body" id="sec-contact">
     <ul class="contact-list">
       <li><b>Email</b> <a href="mailto:tanzir.iu@gmail.com">tanzir.iu@gmail.com</a></li>
       <li><b>GitHub</b> <a href="https://github.com/iamtanzir">github.com/iamtanzir</a></li>
@@ -338,6 +355,7 @@
       <li><b>Twitter</b> <a href="https://twitter.com/tanzir786">@tanzir786</a></li>
       <li><b>SupportKori</b> <a href="https://www.supportkori.com/tanzirahmed">supportkori.com/tanzirahmed</a></li>
     </ul>
+    </div>
   </section>
 
 </main>
@@ -406,6 +424,27 @@
       <p>${p.desc}</p>
       <div class="stack">${p.stack.map(s => `<span class="tag2">${s}</span>`).join("")}</div>
     </div>`).join("");
+
+  document.querySelectorAll(".sec-toggle").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const body = document.getElementById(btn.getAttribute("aria-controls"));
+      const open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!open));
+      body.hidden = open;
+    });
+  });
+  document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+    a.addEventListener("click", () => {
+      const sec = document.getElementById(a.getAttribute("href").slice(1));
+      if (!sec) return;
+      const btn = sec.querySelector(".sec-toggle");
+      const body = sec.querySelector(".sec-body");
+      if (btn && body && btn.getAttribute("aria-expanded") !== "true") {
+        btn.setAttribute("aria-expanded", "true");
+        body.hidden = false;
+      }
+    });
+  });
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
