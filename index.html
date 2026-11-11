@@ -6,6 +6,7 @@
 <meta name="description" content="AKM Tanzir Ahmed — DevOps Engineer. Cloud, Kubernetes, CI/CD and automation. Dhaka, Bangladesh.">
 <meta name="author" content="AKM Tanzir Ahmed">
 <meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://iamtanzir.github.io/">
 <title>AKM Tanzir Ahmed — DevOps Engineer</title>
@@ -72,45 +73,56 @@
     --green-dim:#0e3a26;
     --text:#e6edf3;
     --muted:#8b98a9;
+    color-scheme:dark;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  img{max-width:100%;height:auto}
   body{
     background:var(--bg);
     color:var(--text);
     font-family:'JetBrains Mono','Cascadia Code',Consolas,Menlo,monospace;
     line-height:1.6;
+    overflow-x:hidden;
   }
+  ::selection{background:var(--green);color:#000}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--green-dim)}
+  html{scrollbar-color:var(--line) var(--bg);scrollbar-width:thin}
+  a:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:2px}
   a{color:var(--green);text-decoration:none}
   a:hover{text-decoration:underline}
   .wrap{max-width:900px;margin:0 auto;padding:0 20px}
 
   /* header */
-  header{position:sticky;top:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+  header{position:sticky;top:0;background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
   .nav{display:flex;justify-content:space-between;align-items:center;height:56px}
   .logo{font-weight:700;color:var(--green);letter-spacing:2px}
   .nav a{margin-left:18px;font-size:.85rem;color:var(--muted)}
   .nav a:hover{color:var(--green)}
 
   /* hero */
-  .hero{padding:80px 0 60px;border-bottom:1px solid var(--line)}
+  .hero{padding:clamp(28px,5vh,48px) 0 clamp(24px,4vh,36px);border-bottom:1px solid var(--line)}
   .hero-inner{display:flex;align-items:center;gap:56px}
   .hero-text{flex:1;min-width:0}
   .avatar{width:270px;height:auto;aspect-ratio:720/626;object-fit:cover;border-radius:12px;border:1px solid var(--line);box-shadow:0 0 0 1px rgba(0,255,136,.15),0 0 48px rgba(0,255,136,.12);background:var(--panel)}
   .tag{display:inline-block;border:1px solid var(--green-dim);color:var(--green);padding:2px 12px;border-radius:999px;font-size:.75rem;letter-spacing:2px;margin-bottom:18px}
-  h1{font-size:2.6rem;line-height:1.15;letter-spacing:1px}
+  h1{font-size:clamp(1.6rem,5.5vw,2.6rem);line-height:1.15;letter-spacing:1px}
   h1 .accent{color:var(--green)}
-  .role{margin-top:10px;color:var(--muted);font-size:1.05rem}
-  .clock{margin-top:26px;font-size:1.4rem;color:var(--green);letter-spacing:3px}
+  .role{margin-top:8px;color:var(--muted);font-size:1.05rem}
+  .clock{margin-top:16px;font-size:1.4rem;color:var(--green);letter-spacing:3px}
   .clock small{color:var(--muted);font-size:.75rem;letter-spacing:2px;display:block;margin-top:4px}
-  .cta{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+  .cta{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
   .btn{border:1px solid var(--green);color:var(--green);padding:10px 18px;border-radius:6px;font-size:.85rem;letter-spacing:1px}
   .btn:hover{background:var(--green);color:#000;text-decoration:none}
   .btn.ghost{border-color:var(--line);color:var(--muted)}
   .btn.ghost:hover{background:var(--panel2);color:var(--text)}
 
   /* sections */
-  section{padding:56px 0;border-bottom:1px solid var(--line)}
-  h2{font-size:1.1rem;color:var(--green);letter-spacing:4px;margin-bottom:22px}
+  section{padding:clamp(26px,4.5vh,40px) 0;border-bottom:1px solid var(--line)}
+  h2{font-size:1.1rem;color:var(--green);letter-spacing:4px;margin-bottom:16px}
   h2::before{content:"// ";color:var(--muted)}
 
   .about p{color:var(--muted);max-width:640px}
@@ -121,23 +133,12 @@
 
   .projects{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   @media(max-width:640px){.projects{grid-template-columns:1fr}}
-  @media(max-width:820px){
-    .hero{padding:48px 0 40px}
-    .hero-inner{gap:24px}
-    .avatar{width:150px}
-    h1{font-size:2rem}
-  }
-  @media(max-width:480px){
-    .hero{padding:32px 0 28px}
-    .hero-inner{gap:16px}
-    .avatar{width:110px}
-    h1{font-size:1.5rem}
-    .role{font-size:.8rem}
-    .clock{font-size:1.1rem;margin-top:18px}
-  }
+  @media(max-width:820px){.hero-inner{gap:24px}.avatar{width:150px}}
+  @media(max-width:480px){.hero-inner{gap:16px}.avatar{width:110px}.role{font-size:.8rem}.clock{font-size:1.1rem}}
   .card{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;transition:border-color .2s}
   .card:hover{border-color:var(--green)}
-  .card h3{font-size:.95rem;letter-spacing:.5px}
+  .card h3{font-size:.95rem;letter-spacing:.5px;overflow-wrap:anywhere}
+  .cert-item-title{overflow-wrap:anywhere}
   .card h3 a{color:var(--text)}
   .card p{color:var(--muted);font-size:.8rem;margin:8px 0 10px}
   .card .stack{display:flex;flex-wrap:wrap;gap:6px}
@@ -165,7 +166,7 @@
   .cert-item-foot a{color:var(--green);font-size:.72rem;letter-spacing:1px}
   .cert-item-foot a:hover{text-shadow:0 0 12px rgba(0,255,136,.5);text-decoration:none}
 
-  footer{padding:28px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
+  footer{padding:18px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
