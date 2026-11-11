@@ -226,6 +226,29 @@
   .edu-meta a{color:var(--green);font-size:.68rem;letter-spacing:1px}
 
   footer{padding:18px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
+  /* ===== PORTOFOLIO EFFECTS (pure CSS/JS, no libraries) ===== */
+  /* CRT scanlines + vignette */
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;background:repeating-linear-gradient(0deg,rgba(0,255,136,.03) 0 1px,transparent 1px 3px)}
+
+  /* scroll reveal */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;transition-delay:var(--rd,0ms)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* hover glow */
+  .quick-card:hover{border-color:var(--green);box-shadow:0 0 22px rgba(0,255,136,.16),inset 0 0 16px rgba(0,255,136,.06)}
+  .card:hover{box-shadow:0 0 22px rgba(0,255,136,.15),inset 0 0 16px rgba(0,255,136,.05)}
+  .xp:hover,.edu-item:hover{border-color:var(--green);box-shadow:0 0 18px rgba(0,255,136,.10)}
+  .cert-item{transition:border-color .25s,box-shadow .25s}
+  .cert-item:hover{border-color:var(--green);box-shadow:0 0 18px rgba(0,255,136,.10)}
+  .skill:hover{border-color:var(--green);box-shadow:0 0 12px rgba(0,255,136,.18)}
+
+  /* tilt-ready cards */
+  .quick-card,.card{transform-style:preserve-3d;will-change:transform}
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    body::after{background:none}
+  }
 </style>
 </head>
 <body>
@@ -466,6 +489,42 @@
       <p>${p.desc}</p>
       <div class="stack">${p.stack.map(s => `<span class="tag2">${s}</span>`).join("")}</div>
     </div>`).join("");
+
+  // ===== Scroll reveal + card tilt (pure JS, no libraries) =====
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revealables = [
+    ...document.querySelectorAll(".quick-card, .card, .cert-item, .xp, .edu-item, .skill")
+  ];
+  if (!prefersReducedMotion && "IntersectionObserver" in window) {
+    revealables.forEach((el, i) => {
+      el.classList.add("reveal");
+      el.style.setProperty("--rd", ((i % 6) * 60) + "ms");
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+    revealables.forEach(el => io.observe(el));
+  }
+  if (!prefersReducedMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    document.querySelectorAll(".quick-card, .card").forEach(el => {
+      el.addEventListener("mousemove", e => {
+        const r = el.getBoundingClientRect();
+        const rx = ((e.clientY - r.top) / r.height - 0.5) * -8;
+        const ry = ((e.clientX - r.left) / r.width - 0.5) * 10;
+        el.style.transition = "transform .08s linear";
+        el.style.transform = `perspective(700px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      });
+      el.addEventListener("mouseleave", () => {
+        el.style.transition = "transform .35s ease";
+        el.style.transform = "";
+      });
+    });
+  }
 
   const views = document.querySelectorAll(".view");
   function showView(name) {
