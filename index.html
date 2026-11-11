@@ -135,6 +135,12 @@
   .view.active{display:block;animation:viewFade .3s}
   @keyframes viewFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .view section{border-bottom:0}
+  .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  @media(max-width:640px){.quick-grid{grid-template-columns:1fr}}
+  .quick-card{display:block;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px 16px;color:var(--text);text-decoration:none;transition:border-color .2s}
+  .quick-card:hover{border-color:var(--green);text-decoration:none}
+  .quick-card b{display:block;color:var(--green);font-size:.78rem;letter-spacing:2px;margin-bottom:4px}
+  .quick-card span{color:var(--muted);font-size:.76rem;line-height:1.5}
 
   .about p{color:var(--muted);max-width:680px}
   .about p + p{margin-top:8px}
@@ -208,7 +214,7 @@
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#about" aria-label="Go to home">TANZIR</a>
+    <a class="logo" href="#home" aria-label="Go to home">TANZIR</a>
     <nav>
       <a href="#about" data-view="view-about">about</a>
       <a href="#experience" data-view="view-experience">experience</a>
@@ -243,7 +249,21 @@
     </div>
   </div>
 
-  <div class="view active" id="view-about">
+  <div class="view active" id="view-home">
+  <section id="home">
+    <p style="color:var(--muted);max-width:640px">I'm <b>AKM Tanzir Ahmed</b> — a CS Engineer &amp; ERP Analyst with <b>11+ years</b> across factory-floor ERP rollouts and cloud infrastructure. Day job: shipment-driven wash planning for 10+ global buyer programs (95%+ on-time delivery). Evenings: my own side projects.</p>
+    <div class="quick-grid">
+      <a class="quick-card" href="#about"><b>ABOUT →</b><span>Who I am — background, stack and education</span></a>
+      <a class="quick-card" href="#experience"><b>EXPERIENCE →</b><span>11+ years — ERP rollout, wash planning, global buyers</span></a>
+      <a class="quick-card" href="#projects"><b>PROJECTS →</b><span>Side projects I shipped — ERP, AI chat, solar monitoring</span></a>
+      <a class="quick-card" href="#certificates"><b>CERTIFICATES →</b><span>Verified certifications — click to expand each</span></a>
+      <a class="quick-card" href="#contact"><b>CONTACT →</b><span>Email, GitHub, LinkedIn — reach me directly</span></a>
+      <a class="quick-card" href="#about"><b>STACK →</b><span>ERP, AWS, Kubernetes, Terraform and what I reach for</span></a>
+    </div>
+  </section>
+  </div>
+
+  <div class="view" id="view-about">
   <section id="about" class="about">
     <h2>ABOUT</h2>
     <p>I'm a <b>CS Engineer</b> working as an <b>ERP Analyst &amp; Planner</b> — 11+ years at the intersection of the factory floor and cloud infrastructure. I led the end-to-end <b>ERP rollout</b> at a composite textiles plant — syncing IoT devices to cloud-based analytics (Zilingo/zFactory, Slove8) — and now run <b>shipment-driven wash planning</b> for 10+ global buyer programs with American Eagle, H&amp;M, Primark, Next, OVS, C&amp;A, Jack &amp; Jones, and Tom Tailor.</p>
@@ -432,11 +452,11 @@
 
   const views = document.querySelectorAll(".view");
   function showView(name) {
-    const target = document.getElementById("view-" + name) || document.getElementById("view-about");
+    const target = document.getElementById("view-" + name) || document.getElementById("view-home");
     views.forEach(v => v.classList.toggle("active", v === target));
     window.scrollTo({top: 0});
   }
-  function route() { showView((location.hash || "#about").slice(1)); }
+  function route() { showView((location.hash || "#home").slice(1)); }
   window.addEventListener("hashchange", route);
   route();
 
