@@ -96,6 +96,10 @@
     font-family:'JetBrains Mono','Cascadia Code',Consolas,Menlo,monospace;
     line-height:1.6;
     overflow-x:hidden;
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
   }
   ::selection{background:var(--green);color:#000}
   ::-webkit-scrollbar{width:10px;height:10px}
@@ -246,7 +250,8 @@
   .edu-meta{color:var(--muted);font-size:.7rem;margin-top:6px;line-height:1.6}
   .edu-meta a{color:var(--green);font-size:.68rem;letter-spacing:1px}
 
-  footer{padding:18px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
+  main{flex:1 0 auto;width:100%}
+  footer{padding:18px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line);flex-shrink:0}
   /* ===== PORTOFOLIO EFFECTS (pure CSS/JS, no libraries) ===== */
   /* intro lead fills wide screens with balanced columns */
   .intro-lead{color:var(--muted);columns:2;column-gap:2.6em;max-width:none}
