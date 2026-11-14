@@ -265,7 +265,9 @@
   .edu-meta a{color:var(--green);font-size:.68rem;letter-spacing:1px}
 
   main{flex:1 0 auto;width:100%}
-  footer{padding:18px 0;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line);flex-shrink:0}
+  footer{padding:18px 0;color:var(--muted);font-size:.8rem;text-align:center;flex-shrink:0}
+  .heart{display:inline-block;animation:heartbeat 1.15s ease-in-out infinite;transform-origin:center;filter:drop-shadow(0 0 6px rgba(255,77,141,.65))}
+  @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.38)}28%{transform:scale(1)}42%{transform:scale(1.28)}56%{transform:scale(1)}}
   /* ===== PORTOFOLIO EFFECTS (pure CSS/JS, no libraries) ===== */
   /* intro lead: single flowing statement, no column gap on wide screens */
   .intro-lead{color:var(--muted);max-width:none;text-wrap:pretty}
@@ -303,6 +305,7 @@
 
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
+    .heart{animation:none}
     .hero-text>*,.avatar{animation:none}
     h1 .accent{animation:none;color:var(--green);background:none;-webkit-background-clip:initial;background-clip:initial}
     .btn::after{animation:none;display:none}
@@ -492,7 +495,7 @@
 </main>
 
 <footer>
-  <div class="wrap">© <span id="year"></span> AKM Tanzir Ahmed · Dhaka, Bangladesh</div>
+  <div class="wrap">© <span id="year"></span> AKM Tanzir Ahmed · Dhaka, Bangladesh · Built with <span class="heart" role="img" aria-label="love">💗</span> by Tanzir Ahmed</div>
 </footer>
 
 <script>
