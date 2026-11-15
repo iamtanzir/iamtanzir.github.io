@@ -259,7 +259,7 @@
   .visitors{margin-top:auto;padding-top:16px;text-align:center;line-height:0}
   .view#view-contact.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 112px)}
   .flag-link{display:inline-block;border-radius:6px}
-  .flag-link img{max-width:100%;height:auto;border:0;border-radius:4px}
+  .flag-link img{max-width:100%;height:20px;width:auto;border:0}
 
   .certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:clamp(10px,1.2vw,20px)}
   .cert-card{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;transition:border-color .25s,box-shadow .25s,opacity .55s ease,transform .55s ease}
@@ -590,7 +590,7 @@
         </ul>
         <p class="contact-note"><b>Prefer email?</b> Write to <b>tanzir.iu@gmail.com</b> — I usually reply within a day. The form here lands in the same inbox.</p>
         <div class="visitors">
-          <a class="flag-link" href="https://liveflagcounter.com/stats/6phPkab6" target="_blank" rel="noopener noreferrer"><img id="live-flag-badge" src="https://liveflagcounter.com/c/6phPkab6-1x.png" alt="Live flag counter — total views and visitor countries" width="91" height="20" decoding="async"></a>
+          <a class="flag-link" id="flag-link" href="https://liveflagcounter.com/stats/6phPkab6" target="_blank" rel="noopener noreferrer"><img id="live-flag-badge" src="https://liveflagcounter.com/c/6phPkab6-1x.png" alt="Live flag counter — total views and visitor countries" decoding="async"></a>
         </div>
       </aside>
       <form id="contact-form" class="contact-form" action="https://formsubmit.co/ajax/tanzir.iu@gmail.com" method="POST" novalidate>
@@ -854,12 +854,12 @@
 
   // Flag counter: liveflagcounter strip, with the self-hosted Worker badge as a silent fallback
   const lfBadge = document.getElementById("live-flag-badge");
+  const lfLink = document.getElementById("flag-link");
   if (lfBadge) {
     const swapToWorker = () => {
-      lfBadge.src = "https://tanzir-flag-counter.tanzir-ahmed.workers.dev/?count=0";
-      lfBadge.width = 300;
-      lfBadge.height = 206;
-      lfBadge.alt = "Visitor counter — total views and views per country";
+      lfBadge.src = "https://tanzir-flag-counter.tanzir-ahmed.workers.dev/strip.svg?count=0";
+      lfBadge.alt = "Visitor counter — total views and visitor countries";
+      if (lfLink) lfLink.href = "https://tanzir-flag-counter.tanzir-ahmed.workers.dev/stats";
     };
     lfBadge.addEventListener("error", swapToWorker, { once: true });
     if (lfBadge.complete && lfBadge.naturalWidth === 0) swapToWorker();
