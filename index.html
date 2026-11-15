@@ -256,7 +256,7 @@
   .cf-status{margin-top:10px;font-size:.78rem;min-height:1.2em;color:var(--muted)}
   .cf-status.ok{color:#00ff88}
   .cf-status.err{color:#ff6b6b}
-  .visitors{margin:14px auto 0;margin-top:auto;max-width:min(340px,100%);border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px;text-align:center}
+  .visitors{margin-top:auto;padding-top:16px;text-align:center;line-height:0}
   .view#view-contact.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 112px)}
   .flag-link{display:inline-block;border-radius:6px}
   .flag-link img{max-width:100%;height:auto;border:0;border-radius:4px}
@@ -590,7 +590,7 @@
         </ul>
         <p class="contact-note"><b>Prefer email?</b> Write to <b>tanzir.iu@gmail.com</b> — I usually reply within a day. The form here lands in the same inbox.</p>
     <div class="visitors">
-      <a class="flag-link" href="https://tanzir-flag-counter.tanzir-ahmed.workers.dev/stats" target="_blank" rel="noopener noreferrer"><img src="https://tanzir-flag-counter.tanzir-ahmed.workers.dev/badge.svg" alt="Visitor counter — total views and views per country" width="300" height="206" decoding="async"></a>
+      <a class="flag-link" href="https://liveflagcounter.com/stats/6phPkab6" target="_blank" rel="noopener noreferrer"><img id="live-flag-badge" src="https://liveflagcounter.com/c/6phPkab6-1x.png" alt="Live flag counter — total views and visitor countries" width="91" height="20" decoding="async"></a>
     </div>
       </aside>
       <form id="contact-form" class="contact-form" action="https://formsubmit.co/ajax/tanzir.iu@gmail.com" method="POST" novalidate>
@@ -850,6 +850,19 @@
         btn.disabled = false; btn.textContent = label;
       }
     });
+  }
+
+  // Flag counter: liveflagcounter strip, with the self-hosted Worker badge as a silent fallback
+  const lfBadge = document.getElementById("live-flag-badge");
+  if (lfBadge) {
+    const swapToWorker = () => {
+      lfBadge.src = "https://tanzir-flag-counter.tanzir-ahmed.workers.dev/?count=0";
+      lfBadge.width = 300;
+      lfBadge.height = 206;
+      lfBadge.alt = "Visitor counter — total views and views per country";
+    };
+    lfBadge.addEventListener("error", swapToWorker, { once: true });
+    if (lfBadge.complete && lfBadge.naturalWidth === 0) swapToWorker();
   }
 
   // Live Dhaka clock (Asia/Dhaka, UTC+06:00, no DST)
