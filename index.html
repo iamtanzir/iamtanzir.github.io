@@ -205,6 +205,19 @@
 
   .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(10px,1.2vw,20px)}
   .sub2{color:var(--muted);font-size:.68rem;letter-spacing:2.5px;margin:2px 0 10px}
+  .verified{margin-top:16px;border:1px solid var(--green-dim);border-radius:10px;padding:14px 16px;background:rgba(0,255,136,.04)}
+  .verified-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(14px,1.6vw,28px)}
+  @media (max-width:900px){.verified-grid{grid-template-columns:1fr}}
+  .v-row{display:grid;grid-template-columns:86px minmax(0,1fr) 42px;gap:10px;align-items:center;margin-bottom:8px}
+  .v-label{color:var(--text);font-size:.72rem;letter-spacing:.4px}
+  .v-track{display:block;height:10px;border-radius:6px;background:#111826;overflow:hidden}
+  .v-fill{display:block;height:100%;background:linear-gradient(90deg,#00ff88,#00c96d);border-radius:6px;box-shadow:0 0 10px rgba(0,255,136,.4)}
+  .v-pct{color:var(--green);font-size:.72rem;text-align:right;letter-spacing:.5px}
+  .v-note{color:var(--muted);font-size:.66rem;margin:8px 0 0;letter-spacing:.2px}
+  .vcheck{display:block;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:9px 12px;margin-bottom:8px;text-decoration:none}
+  .vcheck:last-child{margin-bottom:0}
+  .vcheck b{color:var(--text);font-size:.76rem}
+  .vcheck span{color:var(--muted);font-size:.66rem;display:block;margin-top:2px;line-height:1.55}
   .live-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(10px,1.2vw,20px);margin-bottom:14px}
   .live-badge{display:inline-flex;width:max-content;align-items:center;gap:7px;font-size:.6rem;letter-spacing:2px;color:#00ff88;border:1px solid var(--green-dim);border-radius:3px;padding:3px 9px;margin-bottom:8px;background:rgba(0,255,136,.06)}
   .live-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#00ff88;box-shadow:0 0 8px rgba(0,255,136,.9);animation:livePulse 1.5s ease-in-out infinite}
@@ -230,7 +243,7 @@
   .contact-list b{color:var(--text)}
   .contact-list a{overflow-wrap:anywhere}
   @media (max-width:520px){.contact-list li{grid-template-columns:1fr;gap:2px}}
-  .contact-grid{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:clamp(12px,1.6vw,28px);align-items:start}
+  .contact-grid{display:grid;grid-template-columns:minmax(300px,600px) minmax(0,1fr);gap:clamp(12px,1.6vw,28px);align-items:stretch}
   @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
   .contact-panel{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:16px 18px;height:100%}
   .contact-note{color:var(--muted);font-size:.7rem;line-height:1.75;margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
@@ -241,7 +254,7 @@
   .cf-input{background:#05070c;border:1px solid var(--line);border-radius:6px;color:var(--text);font-family:inherit;font-size:.85rem;padding:11px 12px;outline:none;transition:border-color .2s,box-shadow .2s}
   .cf-input:focus{border-color:var(--green);box-shadow:0 0 14px rgba(0,255,136,.22)}
   .cf-input::placeholder{color:#4c5866}
-  .cf-textarea{resize:vertical;min-height:110px}
+  .cf-textarea{resize:vertical;min-height:96px}
   .cf-honey{display:none}
   .cf-btn{margin-top:2px;width:100%}
   .cf-status{margin-top:10px;font-size:.78rem;min-height:1.2em;color:var(--muted)}
@@ -434,6 +447,27 @@
   <section id="sec-stack">
     <h2>STACK</h2>
     <div class="skills" id="skills"></div>
+    <div class="verified">
+      <p class="sub2" style="margin:0 0 10px">VERIFIED — my code, measured &amp; built by me · Nov 2026</p>
+      <div class="verified-grid">
+        <div class="vbars">
+          <div class="v-row"><span class="v-label">TypeScript</span><span class="v-track"><span class="v-fill" style="width:74%"></span></span><span class="v-pct">74%</span></div>
+          <div class="v-row"><span class="v-label">Kotlin</span><span class="v-track"><span class="v-fill" style="width:12%"></span></span><span class="v-pct">12%</span></div>
+          <div class="v-row"><span class="v-label">JavaScript</span><span class="v-track"><span class="v-fill" style="width:6%"></span></span><span class="v-pct">6%</span></div>
+          <div class="v-row"><span class="v-label">HTML</span><span class="v-track"><span class="v-fill" style="width:3%"></span></span><span class="v-pct">3%</span></div>
+          <div class="v-row"><span class="v-label">Python</span><span class="v-track"><span class="v-fill" style="width:3%"></span></span><span class="v-pct">3%</span></div>
+          <div class="v-row"><span class="v-label">CSS</span><span class="v-track"><span class="v-fill" style="width:2%"></span></span><span class="v-pct">2%</span></div>
+          <p class="v-note">Language bytes across all 28 of my repos (21 public + 7 private) · GitHub API, Nov 2026</p>
+        </div>
+        <div class="vchecks">
+          <div class="vcheck"><b>Wash-ERP</b><span>tsc --noEmit clean · vite + esbuild production build ✓</span></div>
+          <div class="vcheck"><b>FREE-Payment-Gateways</b><span>npm test — all smoke tests pass ✓ · MIT license</span></div>
+          <div class="vcheck"><b>Mr.Robot by Tanzir</b><span>npm run build — rollup bundle ✓ · live v1.1.15</span></div>
+          <div class="vcheck"><b>BDIX-Tester</b><span>py_compile clean · full CLI, self-documenting ✓</span></div>
+          <div class="vcheck"><b>Live — checked Nov 2026</b><span>HACK_TUTOR · Mr.Robot · Free-Payment-Gateways — all HTTP 200 ✓</span></div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="sec-education">
