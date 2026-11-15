@@ -247,6 +247,10 @@
   .cf-status{margin-top:10px;font-size:.78rem;min-height:1.2em;color:var(--muted)}
   .cf-status.ok{color:#00ff88}
   .cf-status.err{color:#ff6b6b}
+  .visitors{margin-top:14px;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;text-align:center}
+  .flag-link{display:inline-block;border-radius:6px}
+  .flag-link img{max-width:100%;height:auto;border:0;border-radius:4px}
+  .visitors-note{color:var(--muted);font-size:.66rem;letter-spacing:.3px;margin-top:8px}
 
   .certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:clamp(10px,1.2vw,20px)}
   .cert-card{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;transition:border-color .25s,box-shadow .25s,opacity .55s ease,transform .55s ease}
@@ -295,6 +299,18 @@
   .intro-lead{color:var(--muted);max-width:none;text-wrap:pretty}
   .intro-lead b{color:var(--text)}
   @media (max-width:900px){.intro-lead{max-width:62ch}}
+  /* hire / work-with-me band */
+  .cta-band{position:relative;overflow:hidden;border:1px solid var(--green-dim);border-radius:12px;padding:clamp(16px,2.2vw,30px);margin:14px 0 18px;background:radial-gradient(120% 170% at 50% 125%,rgba(0,255,136,.12),rgba(10,14,23,.15) 55%)}
+  .cta-kicker{margin:0 0 8px;color:var(--green)}
+  .cta-title{font-size:clamp(1.15rem,2vw,1.55rem);line-height:1.35;letter-spacing:.3px;color:var(--text);max-width:62ch;margin:0 0 14px;font-weight:600}
+  .cta-title span{color:var(--green)}
+  .cap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px;margin-bottom:13px}
+  .cap{border:1px solid var(--line);background:rgba(0,0,0,.35);border-radius:8px;padding:12px 13px}
+  .cap b{color:var(--green);font-size:.68rem;letter-spacing:2px;display:block;margin-bottom:5px}
+  .cap span{color:var(--muted);font-size:.76rem;line-height:1.55}
+  .buyer-strip{color:var(--muted);font-size:.72rem;letter-spacing:.4px;border-top:1px solid var(--line);padding-top:11px;margin:0 0 13px}
+  .buyer-strip b{color:var(--text);font-weight:600}
+  .cta-btn{width:max-content}
   /* react-spring concept, ported to pure CSS: spring-overshoot entrance */
   @keyframes springIn{from{opacity:0;transform:translateY(26px) scale(.96)}55%{opacity:1;transform:translateY(-5px) scale(1.015)}75%{transform:translateY(2px) scale(.997)}100%{opacity:1;transform:none}}
   .hero-text>*{animation:springIn .75s cubic-bezier(.34,1.4,.64,1) both}
@@ -384,6 +400,19 @@
   <section id="sec-home">
     <h2 class="sr-only">Home</h2>
     <p class="intro-lead">I'm <b>Tanzir</b> — a CS Engineer &amp; ERP Analyst with <b>11+ years</b> across factory-floor ERP rollouts and cloud infrastructure. Day job: shipment-driven wash planning for <b>10+ global buyer programs</b> (95%+ on-time delivery). Evenings: my own side projects.</p>
+
+    <div class="cta-band">
+      <p class="sub2 cta-kicker">WORK WITH ME</p>
+      <h3 class="cta-title">I implement <span>ERP systems</span>, run <span>global-buyer wash planning</span>, and build <span>cloud-native automation</span> that doesn't break at 2am.</h3>
+      <div class="cap-grid">
+        <div class="cap"><b>ERP &amp; ANALYTICS</b><span>Zilingo/zFactory rollouts, IoT → cloud sync, KPI dashboards, &gt;95% data accuracy via validation protocols</span></div>
+        <div class="cap"><b>WASH PLANNING</b><span>Shipment-driven planning for 10+ global buyers — 95%+ on-time delivery, capacity &amp; manpower optimization</span></div>
+        <div class="cap"><b>CLOUD &amp; AUTOMATION</b><span>AWS · Kubernetes · Terraform · GitHub Actions · Argo CD · Prometheus/Grafana — observability built in</span></div>
+        <div class="cap"><b>WEB &amp; ANDROID</b><span>Laundry ERP, multi-provider AI chat, AI assistant, IPS/solar monitoring, kids-safety tracker — shipped, not slideware</span></div>
+      </div>
+      <p class="buyer-strip">Programs executed for&nbsp; <b>American Eagle · H&amp;M · Primark · Next · OVS · C&amp;A · Jack &amp; Jones · Tom Tailor</b></p>
+      <a class="btn cta-btn" href="#contact">LET'S WORK TOGETHER →</a>
+    </div>
     <div class="quick-grid">
       <a class="quick-card" href="#about"><b>ABOUT →</b><span>Who I am — background, stack and education</span></a>
       <a class="quick-card" href="#experience"><b>EXPERIENCE →</b><span>11+ years — ERP rollout, wash planning, global buyers</span></a>
@@ -533,6 +562,11 @@
         <button type="submit" class="btn cf-btn" id="cf-submit">SEND MESSAGE →</button>
         <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
       </form>
+    </div>
+    <div class="visitors">
+      <p class="sub2" style="margin:0 0 10px">PROFILE VIEWS — live counter</p>
+      <a class="flag-link" href="https://komarev.com/ghpvc/?username=iamtanzir" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=iamtanzir&label=PROFILE+VIEWS&color=00FF88&style=for-the-badge&labelColor=0A0E17" alt="GitHub profile views — counted live" loading="lazy" decoding="async" width="280"></a>
+      <p class="visitors-note">Same counter as my GitHub profile — every view counted live</p>
     </div>
   </section>
   </div>
