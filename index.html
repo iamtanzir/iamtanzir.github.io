@@ -230,6 +230,23 @@
   .contact-list b{color:var(--text)}
   .contact-list a{overflow-wrap:anywhere}
   @media (max-width:520px){.contact-list li{grid-template-columns:1fr;gap:2px}}
+  .contact-grid{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:clamp(12px,1.6vw,28px);align-items:start}
+  @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
+  .contact-panel{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:16px 18px;height:100%}
+  .contact-note{color:var(--muted);font-size:.7rem;line-height:1.75;margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+  .contact-note b{color:var(--text)}
+  .contact-form{border:1px solid var(--green-dim);background:linear-gradient(155deg,rgba(0,255,136,.07),rgba(10,14,23,.92) 45%);border-radius:10px;padding:18px 20px;box-shadow:0 0 36px rgba(0,255,136,.09),inset 0 1px 0 rgba(255,255,255,.05)}
+  .cf-row{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}
+  .cf-label{color:var(--green);font-size:.66rem;letter-spacing:2.5px}
+  .cf-input{background:#05070c;border:1px solid var(--line);border-radius:6px;color:var(--text);font-family:inherit;font-size:.85rem;padding:11px 12px;outline:none;transition:border-color .2s,box-shadow .2s}
+  .cf-input:focus{border-color:var(--green);box-shadow:0 0 14px rgba(0,255,136,.22)}
+  .cf-input::placeholder{color:#4c5866}
+  .cf-textarea{resize:vertical;min-height:110px}
+  .cf-honey{display:none}
+  .cf-btn{margin-top:2px;width:100%}
+  .cf-status{margin-top:10px;font-size:.78rem;min-height:1.2em;color:var(--muted)}
+  .cf-status.ok{color:#00ff88}
+  .cf-status.err{color:#ff6b6b}
 
   .certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:clamp(10px,1.2vw,20px)}
   .cert-card{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;transition:border-color .25s,box-shadow .25s,opacity .55s ease,transform .55s ease}
@@ -484,13 +501,39 @@
   <div class="view" id="view-contact">
   <section id="sec-contact">
     <h2>CONTACT</h2>
-    <ul class="contact-list">
-      <li><b>Email</b> <a href="mailto:tanzir.iu@gmail.com">tanzir.iu@gmail.com</a></li>
-      <li><b>GitHub</b> <a href="https://github.com/iamtanzir" target="_blank" rel="noopener noreferrer">github.com/iamtanzir</a></li>
-      <li><b>LinkedIn</b> <a href="https://www.linkedin.com/in/akm-tanzir-ahmed" target="_blank" rel="noopener noreferrer">linkedin.com/in/akm-tanzir-ahmed</a></li>
-      <li><b>Twitter</b> <a href="https://twitter.com/tanzir786" target="_blank" rel="noopener noreferrer">@tanzir786</a></li>
-      <li><b>SupportKori</b> <a href="https://www.supportkori.com/tanzirahmed" target="_blank" rel="noopener noreferrer">supportkori.com/tanzirahmed</a></li>
-    </ul>
+    <div class="contact-grid">
+      <aside class="contact-panel">
+        <p class="sub2" style="margin-top:0">REACH ME</p>
+        <ul class="contact-list">
+          <li><b>Email</b> <a href="mailto:tanzir.iu@gmail.com">tanzir.iu@gmail.com</a></li>
+          <li><b>GitHub</b> <a href="https://github.com/iamtanzir" target="_blank" rel="noopener noreferrer">github.com/iamtanzir</a></li>
+          <li><b>LinkedIn</b> <a href="https://www.linkedin.com/in/akm-tanzir-ahmed" target="_blank" rel="noopener noreferrer">linkedin.com/in/akm-tanzir-ahmed</a></li>
+          <li><b>Twitter</b> <a href="https://twitter.com/tanzir786" target="_blank" rel="noopener noreferrer">@tanzir786</a></li>
+          <li><b>SupportKori</b> <a href="https://www.supportkori.com/tanzirahmed" target="_blank" rel="noopener noreferrer">supportkori.com/tanzirahmed</a></li>
+        </ul>
+        <p class="contact-note"><b>Note:</b> the form uses a free mail relay (FormSubmit). The <b>first</b> message triggers a one-time activation email to <b>tanzir.iu@gmail.com</b> — click it once, then every message lands straight in your inbox.</p>
+      </aside>
+      <form id="contact-form" class="contact-form" action="https://formsubmit.co/ajax/tanzir.iu@gmail.com" method="POST" novalidate>
+        <p class="sub2" style="margin-top:0">DROP A MESSAGE — goes straight to my inbox</p>
+        <input type="hidden" name="_subject" value="New message from iamtanzir.github.io">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="cf-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="cf-row">
+          <label class="cf-label" for="cf-name">NAME</label>
+          <input id="cf-name" name="name" class="cf-input" type="text" required autocomplete="name" placeholder="Your name">
+        </div>
+        <div class="cf-row">
+          <label class="cf-label" for="cf-email">YOUR EMAIL</label>
+          <input id="cf-email" name="email" class="cf-input" type="email" required autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="cf-row">
+          <label class="cf-label" for="cf-msg">MESSAGE</label>
+          <textarea id="cf-msg" name="message" class="cf-input cf-textarea" rows="5" required placeholder="What's on your mind?"></textarea>
+        </div>
+        <button type="submit" class="btn cf-btn" id="cf-submit">SEND MESSAGE →</button>
+        <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
   </section>
   </div>
 
@@ -705,6 +748,29 @@
       }, 80);
     });
   });
+
+  // Contact form -> straight to inbox via FormSubmit relay (no signup needed)
+  const cf = document.getElementById("contact-form");
+  if (cf) {
+    const btn = document.getElementById("cf-submit");
+    const status = document.getElementById("cf-status");
+    cf.addEventListener("submit", async e => {
+      e.preventDefault();
+      if (!cf.checkValidity()) { cf.reportValidity(); return; }
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = "SENDING…"; status.textContent = ""; status.className = "cf-status";
+      try {
+        const res = await fetch(cf.action, { method: "POST", body: new FormData(cf), headers: { "Accept": "application/json" } });
+        if (res.ok) { status.textContent = "✅ Message sent — I'll get back to you soon."; status.className = "cf-status ok"; cf.reset(); }
+        else throw new Error("relay error");
+      } catch (err) {
+        status.textContent = "❌ Couldn't send right now — email directly: tanzir.iu@gmail.com";
+        status.className = "cf-status err";
+      } finally {
+        btn.disabled = false; btn.textContent = label;
+      }
+    });
+  }
 
   // Live Dhaka clock (Asia/Dhaka, UTC+06:00, no DST)
   const dhakaTime = document.getElementById("dhaka-time");
