@@ -16,8 +16,8 @@
 <meta property="og:url" content="https://iamtanzir.github.io/">
 <meta property="og:title" content="AKM Tanzir Ahmed — CS Engineer &amp; ERP Analyst">
 <meta property="og:description" content="CS Engineer, ERP Analyst & Planner — factory ERP implementation, global-buyer wash planning, cloud and automation. Dhaka, Bangladesh.">
-<meta property="og:image" content="https://iamtanzir.github.io/assets/og.png?v=20261113">
-<meta property="og:image:secure_url" content="https://iamtanzir.github.io/assets/og.png?v=20261113">
+<meta property="og:image" content="https://iamtanzir.github.io/assets/og.png?v=20261115">
+<meta property="og:image:secure_url" content="https://iamtanzir.github.io/assets/og.png?v=20261115">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -29,7 +29,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AKM Tanzir Ahmed — CS Engineer &amp; ERP Analyst">
 <meta name="twitter:description" content="CS Engineer, ERP Analyst & Planner — factory ERP implementation, global-buyer wash planning, cloud and automation. Dhaka, Bangladesh.">
-<meta name="twitter:image" content="https://iamtanzir.github.io/assets/og.png?v=20261113">
+<meta name="twitter:image" content="https://iamtanzir.github.io/assets/og.png?v=20261115">
 <meta name="twitter:image:alt" content="AKM Tanzir Ahmed — CS Engineer &amp; ERP Analyst">
 <meta name="twitter:creator" content="@tanzir786">
 <meta name="twitter:site" content="@tanzir786">
@@ -241,7 +241,7 @@
   @media (max-width:520px){.contact-list li{grid-template-columns:1fr;gap:2px}}
   .contact-grid{display:grid;grid-template-columns:minmax(300px,600px) minmax(0,1fr);gap:clamp(12px,1.6vw,28px);align-items:stretch}
   @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
-  .contact-panel{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:16px 18px;height:100%}
+  .contact-panel{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:16px 18px;height:100%}
   .contact-note{color:var(--muted);font-size:.7rem;line-height:1.75;margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
   .contact-note b{color:var(--text)}
   .contact-form{border:1px solid var(--green-dim);background:linear-gradient(155deg,rgba(0,255,136,.07),rgba(10,14,23,.92) 45%);border-radius:10px;padding:18px 20px;box-shadow:0 0 36px rgba(0,255,136,.09),inset 0 1px 0 rgba(255,255,255,.05)}
@@ -256,11 +256,10 @@
   .cf-status{margin-top:10px;font-size:.78rem;min-height:1.2em;color:var(--muted)}
   .cf-status.ok{color:#00ff88}
   .cf-status.err{color:#ff6b6b}
-  .visitors{margin-top:14px;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;text-align:center}
-  .view#view-contact.view.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 170px)}
+  .visitors{margin:14px auto 0;margin-top:auto;max-width:min(340px,100%);border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px;text-align:center}
+  .view#view-contact.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 112px)}
   .flag-link{display:inline-block;border-radius:6px}
   .flag-link img{max-width:100%;height:auto;border:0;border-radius:4px}
-  .visitors-note{color:var(--muted);font-size:.66rem;letter-spacing:.3px;margin-top:8px}
 
   .certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:clamp(10px,1.2vw,20px)}
   .cert-card{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;transition:border-color .25s,box-shadow .25s,opacity .55s ease,transform .55s ease}
@@ -301,7 +300,7 @@
   .edu-meta a{color:var(--green);font-size:.68rem;letter-spacing:1px}
 
   main{width:100%}
-  footer{padding:18px 0;color:var(--muted);font-size:.8rem;text-align:center;flex-shrink:0}
+  footer{display:flex;align-items:center;justify-content:center;min-height:56px;padding:8px 0;color:var(--muted);font-size:.8rem;text-align:center;flex-shrink:0}
   .heart{display:inline-block;animation:heartbeat 1.15s ease-in-out infinite;transform-origin:center;filter:drop-shadow(0 0 6px rgba(255,77,141,.65))}
   @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.38)}28%{transform:scale(1)}42%{transform:scale(1.28)}56%{transform:scale(1)}}
   /* ===== PORTOFOLIO EFFECTS (pure CSS/JS, no libraries) ===== */
@@ -374,11 +373,11 @@
       <span></span><span></span><span></span>
     </button>
     <nav id="navMenu" aria-label="Primary">
-      <a href="#about" data-view="view-about">about</a>
-      <a href="#experience" data-view="view-experience">experience</a>
-      <a href="#projects" data-view="view-projects">projects</a>
-      <a href="#certificates" data-view="view-certificates">certificates</a>
-      <a href="#contact" data-view="view-contact">contact</a>
+      <a href="#about">about</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#certificates">certificates</a>
+      <a href="#contact">contact</a>
     </nav>
   </div>
 </header>
@@ -413,12 +412,12 @@
 
     <div class="cta-band">
       <p class="sub2 cta-kicker">WORK WITH ME</p>
-      <h3 class="cta-title">I implement <span>ERP systems</span>, run <span>global-buyer wash planning</span>, and build <span>cloud-native automation</span> that doesn't break at 2am.</h3>
+      <h3 class="cta-title">I implement <span>ERP systems</span>, run <span>global-buyer wash planning</span>, and build the <span>cloud automation</span> that keeps both running.</h3>
       <div class="cap-grid">
         <div class="cap"><b>ERP &amp; ANALYTICS</b><span>Zilingo/zFactory rollouts, IoT → cloud sync, KPI dashboards, &gt;95% data accuracy via validation protocols</span></div>
         <div class="cap"><b>WASH PLANNING</b><span>Shipment-driven planning for 10+ global buyers — 95%+ on-time delivery, capacity &amp; manpower optimization</span></div>
         <div class="cap"><b>CLOUD &amp; AUTOMATION</b><span>AWS · Kubernetes · Terraform · GitHub Actions · Argo CD · Prometheus/Grafana — observability built in</span></div>
-        <div class="cap"><b>WEB &amp; ANDROID</b><span>Laundry ERP, multi-provider AI chat, AI assistant, IPS/solar monitoring, kids-safety tracker — shipped, not slideware</span></div>
+        <div class="cap"><b>WEB &amp; ANDROID</b><span>Laundry ERP, multi-provider AI chat, AI assistant, IPS/solar monitoring, kids-safety tracker — all built, shipped and running</span></div>
       </div>
       <p class="buyer-strip">Programs executed for&nbsp; <b>American Eagle · H&amp;M · Primark · Next · OVS · C&amp;A · Jack &amp; Jones · Tom Tailor</b></p>
       <a class="btn cta-btn" href="#contact">LET'S WORK TOGETHER →</a>
@@ -427,7 +426,7 @@
       <a class="quick-card" href="#about"><b>ABOUT →</b><span>Who I am — background, stack and education</span></a>
       <a class="quick-card" href="#experience"><b>EXPERIENCE →</b><span>11+ years — ERP rollout, wash planning, global buyers</span></a>
       <a class="quick-card" href="#projects"><b>PROJECTS →</b><span>Live demos &amp; shipped work — payments, AI, security, Android</span></a>
-      <a class="quick-card" href="#certificates"><b>CERTIFICATES →</b><span>12 verified certificates — open image or verify link</span></a>
+      <a class="quick-card" href="#certificates"><b>CERTIFICATES →</b><span>12 certificates — view the image or open the verify link</span></a>
       <a class="quick-card" href="#contact"><b>CONTACT →</b><span>Email, GitHub, LinkedIn — reach me directly</span></a>
       <a class="quick-card" href="#about" data-target="sec-stack"><b>STACK →</b><span>ERP, AWS, Kubernetes, Terraform and what I reach for</span></a>
     </div>
@@ -437,8 +436,8 @@
   <div class="view" id="view-about">
   <section id="sec-about" class="about">
     <h2>ABOUT</h2>
-    <p>I'm a <b>CS Engineer</b> working as an <b>ERP Analyst &amp; Planner</b> — 11+ years at the intersection of the factory floor and cloud infrastructure. I led the end-to-end <b>ERP rollout</b> at a composite textiles plant — syncing IoT devices to cloud-based analytics (Zilingo/zFactory, Slove8) — and now run <b>shipment-driven wash planning</b> for 10+ global buyer programs with American Eagle, H&amp;M, Primark, Next, OVS, C&amp;A, Jack &amp; Jones, and Tom Tailor.</p>
-    <p>On the tooling side I like things automated, observable, and boring at 2am — <b>AWS</b>, <b>Kubernetes</b>, <b>Terraform</b>, <b>GitHub Actions</b>. I also ship my own side projects: a laundry ERP, a multi-provider AI chat app, a personal AI assistant, an Android app for monitoring solar panels and inverters, a cybersecurity learning agent (HACK_TUTOR), and a kids-safety tracker.</p>
+    <p>I'm a CS graduate who went to work on a factory floor rather than in a software office. Since 2015 I've run <b>ERP implementation</b> at a composite textiles plant — syncing IoT devices to cloud analytics (Zilingo/zFactory, Slove8) — and today I plan wash capacity against shipment dates: machine loading, manpower and buyer audits.</p>
+    <p>Most of my tooling is about removing manual steps: <b>AWS</b>, <b>Kubernetes</b>, <b>Terraform</b> and <b>GitHub Actions</b> for the infrastructure, SQL and Excel for the planning side. After hours I build and ship my own software — a laundry ERP, an AI console, Android monitoring apps and a kids-safety tracker.</p>
   </section>
 
   <section id="sec-stack">
@@ -484,7 +483,7 @@
       </div>
       <div class="edu-item">
         <div class="edu-degree"><b>SSC</b> — Business Studies</div>
-        <div class="edu-meta">Comilla Housing Estate School &amp; College · SSC, Business Studies<br>GPA 3.69 / 5.00 · 2009<br><a href="https://teachers.gov.bd/content/details/559038" target="_blank" rel="noopener">Official site →</a></div>
+        <div class="edu-meta">Comilla Housing Estate School &amp; College<br>GPA 3.69 / 5.00 · 2009<br><a href="https://teachers.gov.bd/content/details/559038" target="_blank" rel="noopener">Official site →</a></div>
       </div>
     </div>
   </section>
@@ -550,7 +549,7 @@
           <li><b>tanzir-ai / Mr.Robot</b> — multi-provider AI console (Puter, Gemini, Groq, OpenRouter, OpenAI…), local-first privacy, live on Render</li>
           <li><b>Cybernetic-Sentinel</b> (TypeScript) — personal AI assistant &amp; automation agent, Jarvis-style</li>
           <li><b>Android (Kotlin)</b> — IPS/solar inverter monitoring, LFP battery calculator, KidSafe-Guardian (kids location safety)</li>
-          <li><b>HACK_TUTOR</b> — AI cybersecurity learning agent; 6 AI modes, 200+ tools database, live &amp; actively developed</li>
+          <li><b>HACK_TUTOR</b> — AI cybersecurity learning agent with recon, exploit, lab-guide, analyzer and agent modes; 200+ tool database, live and actively developed</li>
           <li><b>DevOps &amp; automation</b> — GitHub Actions CI/CD, self-hosted Pi-hole (Pi 3B), deploys on Render / Vercel / Turso, profile clock &amp; counters automation</li>
           <li><b>Open source</b> — BDIX tester, ad-block DNS list, contribution-graph pixel art, theme templates, Raspberry Pi setup notes</li>
         </ul>
@@ -589,7 +588,10 @@
           <li><b>Twitter</b> <a href="https://twitter.com/tanzir786" target="_blank" rel="noopener noreferrer">@tanzir786</a></li>
           <li><b>SupportKori</b> <a href="https://www.supportkori.com/tanzirahmed" target="_blank" rel="noopener noreferrer">supportkori.com/tanzirahmed</a></li>
         </ul>
-        <p class="contact-note"><b>Note:</b> the form uses a free mail relay (FormSubmit). The <b>first</b> message triggers a one-time activation email to <b>tanzir.iu@gmail.com</b> — click it once, then every message lands straight in your inbox.</p>
+        <p class="contact-note"><b>Prefer email?</b> Write to <b>tanzir.iu@gmail.com</b> — I usually reply within a day. The form here lands in the same inbox.</p>
+    <div class="visitors">
+      <a class="flag-link" href="https://tanzir-flag-counter.tanzir-ahmed.workers.dev/stats" target="_blank" rel="noopener noreferrer"><img src="https://tanzir-flag-counter.tanzir-ahmed.workers.dev/badge.svg" alt="Visitor counter — total views and views per country" width="300" height="206" decoding="async"></a>
+    </div>
       </aside>
       <form id="contact-form" class="contact-form" action="https://formsubmit.co/ajax/tanzir.iu@gmail.com" method="POST" novalidate>
         <p class="sub2" style="margin-top:0">DROP A MESSAGE — goes straight to my inbox</p>
@@ -612,9 +614,6 @@
         <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
       </form>
     </div>
-    <div class="visitors">
-      <a class="flag-link" href="https://liveflagcounter.com/stats/6phPkab6" target="_blank" rel="noopener"><img src="https://liveflagcounter.com/c/6phPkab6.svg" alt="Live Flag Counter" height="20" style="max-width:100%;height:auto"></a>
-      </div>
   </section>
   </div>
 
@@ -634,17 +633,17 @@
 <script>
   const certs = [
     {title:"Foundations of Cybersecurity", issuer:"Google / Coursera", date:"May 5, 2026", img:"assets/certificates/foundations-of-cybersecurity-google-coursera-umhai29eedb3.jpg", url:"https://coursera.org/verify/UMHAI29EEDB3", verify:true},
-    {title:"Online Safety", issuer:"GP Certificate", date:"Sep 16, 2025", img:"assets/certificates/certificate-online-safety.jpg", url:"assets/certificates/certificate-online-safety.jpg", verify:false},
-    {title:"Cyber Hygiene", issuer:"Certificate", date:"Jun 29, 2025", img:"assets/certificates/cyber-hygiene.jpg", url:"assets/certificates/cyber-hygiene.jpg", verify:false},
-    {title:"Digital Literacy", issuer:"Creative IT Institute", date:"Jun 1, 2024", img:"assets/certificates/digital-literacy-certificate.jpg", url:"assets/certificates/digital-literacy-certificate.jpg", verify:false},
+    {title:"Online Safety", issuer:"Grameenphone Academy", date:"Sep 16, 2025", img:"assets/certificates/certificate-online-safety.jpg", url:"assets/certificates/certificate-online-safety.jpg", verify:false},
+    {title:"Cyber Hygiene", issuer:"The Asia Foundation &amp; SAJIDA Foundation", date:"Jun 29, 2025", img:"assets/certificates/cyber-hygiene.jpg", url:"assets/certificates/cyber-hygiene.jpg", verify:false},
+    {title:"Digital Literacy", issuer:"Futurenation · Creative IT Institute", date:"Jun 1, 2024", img:"assets/certificates/digital-literacy-certificate.jpg", url:"assets/certificates/digital-literacy-certificate.jpg", verify:false},
     {title:"The SDG Primer", issuer:"UNDP Bangladesh", date:"Feb 20, 2024", img:"assets/certificates/the-sdg-primer-certificate.jpg", url:"assets/certificates/the-sdg-primer-certificate.jpg", verify:false},
     {title:"JavaScript for Beginners", issuer:"Stepik", date:"Sep 3, 2023", img:"assets/certificates/javascript-for-beginners.jpg", url:"assets/certificates/javascript-for-beginners.jpg", verify:false},
     {title:"VMware vSphere+ and VMware vSAN+ Fundamentals", issuer:"VMware · VMW-03305978Q-03233122", date:"Aug 31, 2023", img:"assets/certificates/vmware-vsphere-and-vmware-vsan-fundamentals.jpg", url:"assets/certificates/vmware-vsphere-and-vmware-vsan-fundamentals.jpg", verify:false},
-    {title:"Digital Literacy — Course for Youth", issuer:"Certificate", date:"Aug 28, 2023", img:"assets/certificates/digital-literacy.jpg", url:"assets/certificates/digital-literacy.jpg", verify:false},
+    {title:"Digital Literacy — Course for Youth", issuer:"Digital Literacy Center · ICT Division", date:"Aug 28, 2023", img:"assets/certificates/digital-literacy.jpg", url:"assets/certificates/digital-literacy.jpg", verify:false},
     {title:"Responsive Web Design", issuer:"freeCodeCamp", date:"Jul 10, 2023", img:"assets/certificates/responsive-web-design.jpg", url:"https://freecodecamp.org/certification/tanzir786/responsive-web-design", verify:true},
     {title:"Fundamentals of Digital Marketing", issuer:"Google · T87 BR4 RJW", date:"Nov 14, 2022", img:"assets/certificates/fundamentals-of-digital-marketing.jpg", url:"https://learndigital.withgoogle.com/link/1qsdpcedm9s", verify:true},
     {title:"Microsoft Azure Fundamentals — Describe Cloud Concepts", issuer:"Microsoft", date:"Nov 15, 2022", img:"assets/certificates/microsoft-azure-fundamentals-describe-cloud-concepts.jpg", url:"assets/certificates/microsoft-azure-fundamentals-describe-cloud-concepts.jpg", verify:false},
-    {title:"Troubleshooting in Internet Connection", issuer:"Certificate", date:"2023", img:"assets/certificates/troubleshooting-in-internet-connection.jpg", url:"assets/certificates/troubleshooting-in-internet-connection.jpg", verify:false}
+    {title:"Troubleshooting in Internet Connection", issuer:"a2i · ICT Division", date:"2023", img:"assets/certificates/troubleshooting-in-internet-connection.jpg", url:"assets/certificates/troubleshooting-in-internet-connection.jpg", verify:false}
   ];
   document.getElementById("cert-list").innerHTML = certs.map(c => `
     <article class="cert-card">
@@ -662,7 +661,7 @@
   document.getElementById("skills").innerHTML = skills.map(s => `<span class="skill">${s}</span>`).join("");
 
   const liveProjects = [
-    {name:"HACK_TUTOR v3.0.2", url:"https://hacktutor.tanzir-ahmed.workers.dev/", desc:"AI cybersecurity learning agent — 6 AI modes (Recon, Exploit, Lab Guide, Analyzer, Agent), 200+ tools database, HackTheBox tracker, OPSEC guide", stack:["AI","Cloudflare Workers"]},
+    {name:"HACK_TUTOR v3.0.2", url:"https://hacktutor.tanzir-ahmed.workers.dev/", desc:"AI cybersecurity learning agent — AI modes — Recon, Exploit, Lab Guide, Analyzer, Agent, 200+ tools database, HackTheBox tracker, OPSEC guide", stack:["AI","Cloudflare Workers"]},
     {name:"FREE-Payment-Gateways", url:"https://free-mfs-bd.onrender.com/", desc:"BD mobile-financial-services payment gateways — admin dashboard & gateway UI · source: iamtanzir/FREE-Payment-Gateways (JavaScript)", stack:["JavaScript","MFS","Gateway"]},
     {name:"Mr.Robot by Tanzir", url:"https://tanzir-ai.onrender.com/", desc:"Multi-provider AI console (Puter, Gemini, Groq, OpenRouter, OpenAI…) — local-first, API keys stay in your browser · v1.1.15", stack:["JavaScript","AI","Local-First"]}
   ];
@@ -676,7 +675,7 @@
 
   const projects = [
     {name:"Wash-ERP", desc:"Laundry ERP, deployed on Vercel + Turso", stack:["TypeScript"], url:"https://github.com/iamtanzir/Wash-ERP"},
-    {name:"tanzir-ai", desc:"Multi-provider AI chat (Gemini, Groq, OpenRouter, OpenAI, …)", stack:["JavaScript"], url:"https://github.com/iamtanzir/tanzir-ai"},
+    {name:"tanzir-ai — Mr.Robot", desc:"Multi-provider AI chat (Gemini, Groq, OpenRouter, OpenAI, …)", stack:["JavaScript"], url:"https://github.com/iamtanzir/tanzir-ai"},
     {name:"DeepSeek-v4-1-Flash-Free", desc:"DeepSeek v4.1 Flash & Coder — notes + scripts", stack:["Shell"], url:"https://github.com/iamtanzir/DeepSeek-v4-1-Flash-Free"},
     {name:"IPS-Monitoring-System", desc:"IPS / hybrid inverter / solar monitoring", stack:["Kotlin"], url:"https://github.com/iamtanzir/IPS-Monitoring-System"},
     {name:"LFP-Battery-Calculator", desc:"LFP battery capacity & runtime calculator", stack:["Kotlin"], url:"https://github.com/iamtanzir/LFP-Battery-Calculator"},
@@ -812,7 +811,7 @@
     });
   }
   function route() {
-    const name = (location.hash || "#home").slice(1);
+    const name = decodeURIComponent((location.hash || "#home").slice(1)).split(/[?/]/)[0].toLowerCase();
     if (document.getElementById("view-" + name)) showView(name);
     else window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }
