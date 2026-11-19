@@ -307,7 +307,7 @@
   @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.38)}28%{transform:scale(1)}42%{transform:scale(1.28)}56%{transform:scale(1)}}
   /* ===== PORTOFOLIO EFFECTS (pure CSS/JS, no libraries) ===== */
   /* ===== MATRIX RAIN (TANZIR palette) + FIRE CURSOR + RADAR ===== */
-  .matrix-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6}
+  .matrix-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.8}
   .scrim{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,.92) 0%, rgba(0,0,0,.88) 42%, rgba(0,0,0,.68) 65%, rgba(0,0,0,.30) 84%, rgba(0,0,0,.10) 100%)}
   .fire-fx{position:fixed;inset:0;z-index:90;pointer-events:none}
 
@@ -805,15 +805,18 @@
     const canvas = document.getElementById("matrixBg");
     if (!canvas || reduceMotion || !canvas.getContext) return;
     const ctx = canvas.getContext("2d");
-    const palette = ["#00ff88","#ff4d4d","#35a2ff","#ffd700","#e6edf3","#ff8c1a"];
+    const palette = ["#8affc1","#ffa6a6","#a9d9ff","#fff3a3","#ffffff","#ffd2a6"];
     const glyphs = "TANZIR0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ";
     let W = 0, H = 0, cols = [], fontSize = 16, last = 0;
     function resize(){
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       W = window.innerWidth; H = window.innerHeight;
       canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       fontSize = W < 640 ? 10 : 11;
+      ctx.font = fontSize + "px 'JetBrains Mono','Cascadia Code',Consolas,monospace";
+      ctx.textBaseline = "alphabetic";
+      ctx.textAlign = "left";
       cols = new Array(Math.floor(W / fontSize) + 1).fill(0).map(() => Math.random() * (H / fontSize));
       ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
     }
@@ -824,16 +827,15 @@
       last = t;
       ctx.fillStyle = "rgba(0,0,0,0.032)";
       ctx.fillRect(0, 0, W, H);
-      ctx.font = fontSize + "px 'JetBrains Mono','Cascadia Code',Consolas,monospace";
-      ctx.shadowBlur = 0;
       for (let i = 0; i < cols.length; i++){
         const ch = glyphs[(Math.random() * glyphs.length) | 0];
         const y = cols[i];
-        const color = palette[(Math.random() * palette.length) | 0];
-        if (Math.random() < 0.09){ ctx.shadowColor = color; ctx.shadowBlur = 14; ctx.fillStyle = "#ffffff"; } else { ctx.fillStyle = color; }
-        ctx.globalAlpha = 0.85 + Math.random() * 0.15;
+        if (Math.random() < 0.09) {
+          ctx.fillStyle = "#ffffff";
+        } else {
+          ctx.fillStyle = palette[(Math.random() * palette.length) | 0];
+        }
         ctx.fillText(ch, i * fontSize, y * fontSize);
-        ctx.shadowBlur = 0;
         if (y * fontSize > H && Math.random() > 0.972) cols[i] = 0; else cols[i] += 0.75;
       }
       ctx.globalAlpha = 1;
@@ -848,7 +850,7 @@
     const ctx = canvas.getContext("2d");
     let W = 0, H = 0;
     function resize(){
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       W = window.innerWidth; H = window.innerHeight;
       canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
