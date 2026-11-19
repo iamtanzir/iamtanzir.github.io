@@ -233,6 +233,8 @@
   .card p{color:var(--muted);font-size:.8rem;margin:8px 0 10px}
   .card .stack{display:flex;flex-wrap:wrap;gap:6px}
   .tag2{font-size:.65rem;color:var(--green);border:1px solid var(--green-dim);border-radius:3px;padding:1px 6px}
+  .tag-live{color:#001a0d;background:var(--green);border-color:var(--green);font-weight:700;letter-spacing:.5px}
+  .tag-live:hover{text-decoration:none;box-shadow:0 0 12px rgba(0,255,136,.45)}
 
   .contact-list{list-style:none}
   .contact-list li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;align-items:baseline;margin-bottom:8px;color:var(--muted)}
@@ -457,8 +459,8 @@
         </div>
         <div class="vchecks">
           <div class="vcheck"><b>Wash-ERP</b><span>tsc --noEmit clean · vite + esbuild production build ✓</span></div>
-          <div class="vcheck"><b>FREE-Payment-Gateways</b><span>npm test — all smoke tests pass ✓ · MIT license</span></div>
-          <div class="vcheck"><b>Mr.Robot by Tanzir</b><span>npm run build — rollup bundle ✓ · live v1.1.15</span></div>
+          <div class="vcheck"><b>FREE-Payment-Gateways</b><span>npm test — all smoke tests pass ✓ · AGPL-3.0 license</span></div>
+          <div class="vcheck"><b>Mr.Robot by Tanzir</b><span>npm run build — rollup bundle ✓ · live v1.1.24</span></div>
           <div class="vcheck"><b>BDIX-Tester</b><span>py_compile clean · full CLI, self-documenting ✓</span></div>
           <div class="vcheck"><b>Live — checked Nov 2026</b><span>HACK_TUTOR · Mr.Robot · Free-Payment-Gateways — all HTTP 200 ✓</span></div>
         </div>
@@ -546,11 +548,11 @@
         </div>
         <ul>
           <li><b>Wash-ERP</b> (TypeScript, Vercel + Turso) — laundry ERP planning &amp; tracking app, deployed live</li>
-          <li><b>tanzir-ai / Mr.Robot</b> — multi-provider AI console (Puter, Gemini, Groq, OpenRouter, OpenAI…), local-first privacy, live on Render</li>
+          <li><b>tanzir-ai / Mr.Robot</b> — multi-provider AI console (Puter, Gemini, Groq, OpenRouter, OpenAI…), local-first privacy, live on Cloudflare Workers</li>
           <li><b>Cybernetic-Sentinel</b> (TypeScript) — personal AI assistant &amp; automation agent, Jarvis-style</li>
           <li><b>Android (Kotlin)</b> — IPS/solar inverter monitoring, LFP battery calculator, KidSafe-Guardian (kids location safety)</li>
           <li><b>HACK_TUTOR</b> — AI cybersecurity learning agent with recon, exploit, lab-guide, analyzer and agent modes; 200+ tool database, live and actively developed</li>
-          <li><b>DevOps &amp; automation</b> — GitHub Actions CI/CD, self-hosted Pi-hole (Pi 3B), deploys on Render / Vercel / Turso, profile clock &amp; counters automation</li>
+          <li><b>DevOps &amp; automation</b> — GitHub Actions CI/CD, self-hosted Pi-hole (Pi 3B), deploys on Cloudflare Workers / Vercel / Turso, profile clock &amp; counters automation</li>
           <li><b>Open source</b> — BDIX tester, ad-block DNS list, contribution-graph pixel art, theme templates, Raspberry Pi setup notes</li>
         </ul>
       </div>
@@ -662,8 +664,8 @@
 
   const liveProjects = [
     {name:"HACK_TUTOR v3.0.2", url:"https://hacktutor.tanzir-ahmed.workers.dev/", desc:"AI cybersecurity learning agent — AI modes — Recon, Exploit, Lab Guide, Analyzer, Agent, 200+ tools database, HackTheBox tracker, OPSEC guide", stack:["AI","Cloudflare Workers"]},
-    {name:"FREE-Payment-Gateways", url:"https://free-mfs-bd.onrender.com/", desc:"BD mobile-financial-services payment gateways — admin dashboard & buyer-facing gateway UI", stack:["JavaScript","MFS","Gateway"]},
-    {name:"Mr.Robot by Tanzir", url:"https://tanzir-ai.onrender.com/", desc:"Multi-provider AI console (Puter, Gemini, Groq, OpenRouter, OpenAI…) — local-first, API keys stay in your browser · v1.1.15", stack:["JavaScript","AI","Local-First"]}
+    {name:"FREE-Payment-Gateways", url:"https://mfs.tanzir-ahmed.workers.dev/", desc:"Self-hosted payment gateway for Bangladesh — bKash, Nagad, Rocket, Upay, bank transfer, demo mode · AGPL-3.0", stack:["TypeScript","Node.js","Cloudflare Workers"]},
+    {name:"Mr.Robot by Tanzir", url:"https://ai.tanzir-ahmed.workers.dev/", desc:"Multi-provider AI console with a free no-key default — FLM Free auto gateway, OmniRoute failover, keys stay in your browser · v1.1.24", stack:["JavaScript","Cloudflare Workers","Free AI"]}
   ];
   document.getElementById("live-list").innerHTML = liveProjects.map(p => `
     <div class="card">
@@ -674,27 +676,28 @@
     </div>`).join("");
 
   const projects = [
-    {name:"Wash-ERP", desc:"Laundry ERP, deployed on Vercel + Turso", stack:["TypeScript"], url:"https://github.com/iamtanzir/Wash-ERP"},
-    {name:"tanzir-ai — Mr.Robot", desc:"Source of the AI console above — provider adapters, local-first key storage", stack:["JavaScript"], url:"https://github.com/iamtanzir/tanzir-ai"},
-    {name:"DeepSeek-v4-1-Flash-Free", desc:"DeepSeek v4.1 Flash & Coder — notes + scripts", stack:["Shell"], url:"https://github.com/iamtanzir/DeepSeek-v4-1-Flash-Free"},
-    {name:"IPS-Monitoring-System", desc:"IPS / hybrid inverter / solar monitoring", stack:["Kotlin"], url:"https://github.com/iamtanzir/IPS-Monitoring-System"},
-    {name:"LFP-Battery-Calculator", desc:"LFP battery capacity & runtime calculator", stack:["Kotlin"], url:"https://github.com/iamtanzir/LFP-Battery-Calculator"},
-    {name:"Pi-3B-setup-with-Earning-Apps", desc:"Raspberry Pi 3B + Pi-hole + Honeygain + EarnApp", stack:["DevOps"], url:"https://github.com/iamtanzir/Pi-3B-setup-with-Earning-Apps"},
-    {name:"BDIX-Tester", desc:"BDIX server access tester", stack:["Tooling"], url:"https://github.com/iamtanzir/BDIX-Tester"},
-    {name:"DNS-Server-List", desc:"Ad-block DNS list", stack:["DNS"], url:"https://github.com/iamtanzir/DNS-Server-List"},
-    {name:"Any-Theme-Template", desc:"Reusable theme template built with HTML, CSS, JS & SCSS", stack:["HTML/CSS/SCSS"], url:"https://github.com/iamtanzir/Any-Theme-Template"},
-    {name:"nextjs-blog-theme", desc:"Minimal Next.js blog theme with Markdown support", stack:["JavaScript"], url:"https://github.com/iamtanzir/nextjs-blog-theme"},
-    {name:"Cybernetic-Sentinel", desc:"Personal AI assistant — automation, agents, Iron-Man style", stack:["TypeScript"], url:"https://github.com/iamtanzir/Cybernetic-Sentinel---All-in-One-Your-Own-AI"},
-    {name:"KidSafe-Guardian", desc:"Kids location safety & tracking app", stack:["Kotlin"], url:"https://github.com/iamtanzir/KidSafe-Guardian"},
-    {name:"tanzir-contributions", desc:"Contribution-graph pixel art", stack:["Art"], url:"https://github.com/iamtanzir/tanzir-contributions"},
-    {name:"FREE-Payment-Gateways", desc:"BD FREE Payment Gateways — MFS admin dashboard & gateway UI (MIT)", stack:["JavaScript"], url:"https://github.com/iamtanzir/FREE-Payment-Gateways"},
-    {name:"Reverse-Engineering-Agent-Setup", desc:"Complete REA (rea-agents) setup guide — MCP server that gives coding agents reverse-engineering tools · 27 languages + offline backup", stack:["Docs","MCP"], url:"https://github.com/iamtanzir/Reverse-Engineering-Agent-Setup"},
+    {name:"Wash-ERP", desc:"Laundry ERP — orders, planning, buyer programs and live dashboards", stack:["TypeScript","React","Vite","Express","Turso"], url:"https://github.com/iamtanzir/Wash-ERP"},
+    {name:"tanzir-ai — Mr.Robot", desc:"Source of the AI console above — provider adapters, local-first key storage", stack:["JavaScript","Rollup","Cloudflare Workers"], url:"https://github.com/iamtanzir/tanzir-ai"},
+    {name:"Parquet-Universal-Database-Bridge", desc:"Parquet viewer, SQL workbench and universal bridge to Postgres, MySQL, MSSQL, Mongo, SQLite & Firebase", stack:["TypeScript","React","Vite","DuckDB"], url:"https://github.com/iamtanzir/Parquet-Universal-Database-Bridge"},
+    {name:"DeepSeek-v4-1-Flash-Free", desc:"DeepSeek v4.1 Flash & Coder — free-lifetime setup, scripts, Docker & Colab", stack:["Shell","Docker","Cloudflare"], url:"https://github.com/iamtanzir/DeepSeek-v4-1-Flash-Free"},
+    {name:"IPS-Monitoring-System", desc:"IPS / hybrid inverter / solar panel monitoring for Android", stack:["Kotlin","Android","IoT"], url:"https://github.com/iamtanzir/IPS-Monitoring-System"},
+    {name:"LFP-Battery-Calculator", desc:"LFP battery capacity & runtime calculator", stack:["Kotlin","Android"], url:"https://github.com/iamtanzir/LFP-Battery-Calculator"},
+    {name:"Pi-3B-setup-with-Earning-Apps", desc:"Raspberry Pi 3B + Pi-hole + Honeygain + EarnApp", stack:["Shell","Raspberry Pi","Pi-hole"], url:"https://github.com/iamtanzir/Pi-3B-setup-with-Earning-Apps"},
+    {name:"BDIX-Tester", desc:"BDIX server access tester — Python standard library only", stack:["Python","CLI","Networking"], url:"https://github.com/iamtanzir/BDIX-Tester"},
+    {name:"DNS-Server-List", desc:"Live-verified DoT & DoH resolver list, ShortsGuard and a full DNS system", stack:["HTML","GitHub Pages","DNS"], url:"https://github.com/iamtanzir/DNS-Server-List", demo:"https://iamtanzir.github.io/DNS-Server-List/"},
+    {name:"Any-Theme-Template", desc:"Reusable theme template built with HTML, CSS, JS & SCSS", stack:["HTML","SCSS","JavaScript"], url:"https://github.com/iamtanzir/Any-Theme-Template"},
+    {name:"nextjs-blog-theme", desc:"Minimal Next.js blog theme with Markdown support", stack:["Next.js","Tailwind","JavaScript"], url:"https://github.com/iamtanzir/nextjs-blog-theme"},
+    {name:"Cybernetic-Sentinel", desc:"Personal AI assistant — automation, agents, Iron-Man style", stack:["TypeScript","Vite","Three.js","WebXR"], url:"https://github.com/iamtanzir/Cybernetic-Sentinel---All-in-One-Your-Own-AI"},
+    {name:"KidSafe-Guardian", desc:"Kids location safety & tracking app", stack:["Kotlin","Android","Location"], url:"https://github.com/iamtanzir/KidSafe-Guardian"},
+    {name:"tanzir-contributions", desc:"Contribution-graph pixel art", stack:["Art","Automation"], url:"https://github.com/iamtanzir/tanzir-contributions"},
+    {name:"FREE-Payment-Gateways", desc:"BD FREE Payment Gateways — MFS admin dashboard & gateway UI (AGPL-3.0)", stack:["TypeScript","Node.js","Express","React"], url:"https://github.com/iamtanzir/FREE-Payment-Gateways"},
+    {name:"Reverse-Engineering-Agent-Setup", desc:"Complete REA (rea-agents) setup guide — MCP server that gives coding agents reverse-engineering tools · 27 languages + offline backup", stack:["Docs","MCP","Automation"], url:"https://github.com/iamtanzir/Reverse-Engineering-Agent-Setup"},
   ];
   document.getElementById("project-list").innerHTML = projects.map(p => `
     <div class="card">
       <h3><a href="${p.url}" target="_blank" rel="noopener noreferrer">${p.name} →</a></h3>
       <p>${p.desc}</p>
-      <div class="stack">${p.stack.map(s => `<span class="tag2">${s}</span>`).join("")}</div>
+      <div class="stack">${p.stack.map(s => `<span class="tag2">${s}</span>`).join("")}${p.demo ? `<a class="tag2 tag-live" href="${p.demo}" target="_blank" rel="noopener noreferrer">LIVE ↗</a>` : ""}</div>
     </div>`).join("");
 
   // ===== Scroll reveal + card tilt (pure JS, no libraries) =====
