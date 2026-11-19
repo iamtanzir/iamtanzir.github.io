@@ -307,7 +307,8 @@
   @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.38)}28%{transform:scale(1)}42%{transform:scale(1.28)}56%{transform:scale(1)}}
   /* ===== PORTOFOLIO EFFECTS (pure CSS/JS, no libraries) ===== */
   /* ===== MATRIX RAIN (TANZIR palette) + FIRE CURSOR + RADAR ===== */
-  .matrix-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.16}
+  .matrix-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6}
+  .scrim{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,.92) 0%, rgba(0,0,0,.88) 42%, rgba(0,0,0,.68) 65%, rgba(0,0,0,.30) 84%, rgba(0,0,0,.10) 100%)}
   .fire-fx{position:fixed;inset:0;z-index:90;pointer-events:none}
 
   /* radar rings behind hero */
@@ -322,11 +323,8 @@
   .sweep{position:absolute;top:50%;left:50%;width:230px;height:230px;border-radius:50%;background:conic-gradient(from 0deg, rgba(0,255,136,.38) 0deg, rgba(0,255,136,0) 62deg);transform:translate(-50%,-50%);transform-origin:center;mix-blend-mode:screen;animation:sweepSpin 5.5s linear infinite}
   @keyframes sweepSpin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 
-  /* corner brackets on the photo */
+  /* photo */
   .avatar-wrap{position:relative;flex-shrink:0;display:inline-flex}
-  .avatar-wrap::before,.avatar-wrap::after{content:"";position:absolute;width:40px;height:40px;border:2px solid var(--green);opacity:.85;z-index:2;pointer-events:none}
-  .avatar-wrap::before{top:-10px;left:-10px;border-right:0;border-bottom:0;border-top-left-radius:14px}
-  .avatar-wrap::after{bottom:-10px;right:-10px;border-left:0;border-top:0;border-bottom-right-radius:14px}
 
   /* floating dust in hero */
   .dust{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(0,255,136,.8);opacity:.35;z-index:0;pointer-events:none;animation:dustFloat 6s ease-in-out infinite alternate}
@@ -417,6 +415,7 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 <canvas class="matrix-bg" id="matrixBg" aria-hidden="true"></canvas>
+<div class="scrim" aria-hidden="true"></div>
 <div class="page-glow" id="pageGlow" aria-hidden="true"></div>
 <canvas class="fire-fx" id="fireFx" aria-hidden="true"></canvas>
 <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
