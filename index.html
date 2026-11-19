@@ -352,8 +352,11 @@
 
   @media (max-width:900px){.radar,.dust{display:none}}
 
-  /* ===== RED DRAGON — flies autonomously, breathes fire on random words ===== */
+  /* ===== RED DRAGON — 3D GLB (model-viewer, lazy) with canvas fallback ===== */
   .dragon-fx{position:fixed;inset:0;z-index:94;pointer-events:none}
+  .dragon-3d{position:fixed;top:0;left:0;width:clamp(140px,18vw,220px);aspect-ratio:1;z-index:95;pointer-events:none;opacity:0;transition:opacity .7s;will-change:transform}
+  .dragon-3d.ready{opacity:1}
+  .dragon-3d model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent}
   .burn-word{border-radius:2px;transition:color .35s,background .35s,text-shadow .35s,filter .35s}
   .burn-word.burning{color:#ffe066 !important;background:linear-gradient(180deg, rgba(255,110,0,0) 25%, rgba(255,90,0,.34) 70%, rgba(255,25,0,.45) 100%);text-shadow:0 0 6px rgba(255,175,45,.95),0 0 15px rgba(255,95,0,.9),0 0 28px rgba(255,30,0,.7);animation:burnFlick .16s infinite alternate}
   @keyframes burnFlick{from{filter:brightness(.92) saturate(1)}to{filter:brightness(1.3) saturate(1.35)}}
@@ -412,7 +415,7 @@
     .btn,.btn:hover,.btn:focus-visible{transform:none;transition:color .2s,border-color .2s}
     body::after{background:none}
     body{animation:none}
-    .matrix-bg,.fire-fx,.radar,.dust,.dragon-fx{display:none}
+    .matrix-bg,.fire-fx,.radar,.dust,.dragon-fx,.dragon-3d{display:none}
     .avatar-wrap::before,.avatar-wrap::after{animation:none}
     .cursor-dot,.cursor-ring,.fire-fx,.page-glow{display:none}
   }
@@ -425,6 +428,7 @@
 <div class="scrim" aria-hidden="true"></div>
 <div class="page-glow" id="pageGlow" aria-hidden="true"></div>
 <canvas class="fire-fx" id="fireFx" aria-hidden="true"></canvas>
+<div class="dragon-3d" id="dragon3d" aria-hidden="true"><model-viewer id="dragonModel" src="assets/dragon.glb" alt="" camera-orbit="0deg 78deg 105%" field-of-view="30deg" exposure="1.15" shadow-intensity="0" interaction-prompt="none" environment-image="neutral"></model-viewer></div>
 <canvas class="dragon-fx" id="dragonFx" aria-hidden="true"></canvas>
 <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
@@ -781,6 +785,32 @@
   const finePointer = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
   const coarsePointer = window.matchMedia("(hover:none), (pointer:coarse)").matches;
 
+  // ---------- Unified animation ticker: one rAF for all effects, auto-paused when the tab is hidden ----------
+  const rafTasks = [];
+  let rafPaused = document.hidden;
+  function tickAll(t){
+    requestAnimationFrame(tickAll);
+    if (rafPaused) return;
+    for (let i = 0; i < rafTasks.length; i++) rafTasks[i](t);
+  }
+  requestAnimationFrame(tickAll);
+  document.addEventListener("visibilitychange", () => { rafPaused = document.hidden; });
+  let useDragon3D = false;
+
+  // Reusable ember sprite — replaces hundreds of per-frame radial gradients with one cached drawImage
+  const emberSprite = (function(){
+    const s = document.createElement("canvas");
+    s.width = s.height = 64;
+    const c = s.getContext("2d");
+    const g = c.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, "rgba(255,252,210,1)");
+    g.addColorStop(0.30, "rgba(255,175,60,.95)");
+    g.addColorStop(0.72, "rgba(255,75,20,.62)");
+    g.addColorStop(1, "rgba(255,30,0,0)");
+    c.fillStyle = g; c.fillRect(0, 0, 64, 64);
+    return s;
+  })();
+
   // ---------- Matrix digital rain, coloured from the TANZIR palette ----------
   (function matrixRain(){
     const canvas = document.getElementById("matrixBg");
@@ -801,7 +831,6 @@
     window.addEventListener("resize", resize);
     resize();
     function frame(t){
-      requestAnimationFrame(frame);
       if (t - last < 75) return;
       last = t;
       ctx.fillStyle = "rgba(0,0,0,0.032)";
@@ -820,7 +849,7 @@
       }
       ctx.globalAlpha = 1;
     }
-    requestAnimationFrame(frame);
+    rafTasks.push(frame);
   })();
 
   // ---------- Fire embers emitted by the pointer ----------
@@ -860,7 +889,6 @@
       if (now - lastEmit > 14){ emit(mx, my, 4); lastEmit = now; }
     }, { passive: true });
     function frame(){
-      requestAnimationFrame(frame);
       ctx.clearRect(0, 0, W, H);
       ctx.globalCompositeOperation = "lighter";
       if (Math.random() < 0.3 && parts.length < 320) emit(mx, my, 1);
@@ -869,20 +897,13 @@
         p.x += p.vx; p.y += p.vy; p.vy -= 0.018; p.vx *= 0.985;
         p.life -= p.decay; p.r *= 0.986;
         if (p.life <= 0.02 || p.r < 0.5){ parts.splice(i, 1); continue; }
-        const a = Math.max(0, Math.min(1, p.life));
-        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-        g.addColorStop(0, "hsla(60,100%,74%," + a + ")");
-        g.addColorStop(0.3, "hsla(33,100%,58%," + a + ")");
-        g.addColorStop(0.72, "hsla(11,95%,46%," + (a * 0.75) + ")");
-        g.addColorStop(1, "hsla(0,90%,32%,0)");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.life));
+        ctx.drawImage(emberSprite, p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
       }
+      ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = "source-over";
     }
-    requestAnimationFrame(frame);
+    rafTasks.push(frame);
   })();
 
   // ---------- Fire cursor dot + flickering ember ring ----------
@@ -901,11 +922,11 @@
     document.addEventListener("mouseleave", () => document.body.classList.remove("cursor-ready"));
     document.addEventListener("mouseenter", () => document.body.classList.add("cursor-ready"));
     document.body.classList.add("cursor-ready");
-    (function cursorLoop(){
+    const cursorLoop = function(){
       rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
       ring.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
-      requestAnimationFrame(cursorLoop);
-    })();
+    };
+    rafTasks.push(cursorLoop);
   }
 
   // ===== RED DRAGON — not a mouse: it flies itself, hunts random words, breathes fire (3s, then the word recovers) =====
@@ -941,14 +962,16 @@
     }
 
     const canvas = document.getElementById("dragonFx");
+    const wrap3d = document.getElementById("dragon3d");
     if (canvas && canvas.getContext) {
       const ctx = canvas.getContext("2d");
-      let W = 0, H = 0;
+      let W = 0, H = 0, d3size = 220;
       function resize() {
         const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         W = window.innerWidth; H = window.innerHeight;
         canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        d3size = wrap3d ? (wrap3d.offsetWidth || 220) : 220;
       }
       window.addEventListener("resize", resize);
       resize();
@@ -983,7 +1006,6 @@
         setTimeout(() => el.classList.remove("burning"), 3000);   // recovers after 3s
       }
       function frame(t) {
-        requestAnimationFrame(frame);
         ctx.clearRect(0, 0, W, H);
         flap += 0.16;
 
@@ -1005,6 +1027,10 @@
         if (x < -70) heading = 0; else if (x > W + 70) heading = Math.PI;
         if (y < 14) heading = Math.PI / 2; else if (y > H - 14) heading = -Math.PI / 2;
 
+        if (useDragon3D && wrap3d) {
+          wrap3d.style.transform = "translate(" + (x - d3size / 2) + "px," + (y - d3size / 2) + "px) rotate(" + heading + "rad)";
+        }
+
         spine.unshift({ x, y });
         if (spine.length > 42) spine.pop();
 
@@ -1016,16 +1042,13 @@
           p.life -= p.decay; p.r *= 0.985;
           if (p.life <= 0.02 || p.r < 0.5) { bursts.splice(i, 1); continue; }
           const a = Math.max(0, Math.min(1, p.life));
-          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-          g.addColorStop(0, "hsla(58,100%,72%," + a + ")");
-          g.addColorStop(0.35, "hsla(30,100%,55%," + a + ")");
-          g.addColorStop(0.75, "hsla(10,95%,45%," + (a * 0.72) + ")");
-          g.addColorStop(1, "hsla(0,90%,30%,0)");
-          ctx.fillStyle = g;
-          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = a;
+          ctx.drawImage(emberSprite, p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
         }
+        ctx.globalAlpha = 1;
         ctx.globalCompositeOperation = "source-over";
 
+        if (!useDragon3D) {
         // body: tapered segments, tail -> head
         for (let i = spine.length - 1; i >= 1; i--) {
           const p = spine[i];
@@ -1100,8 +1123,29 @@
         ctx.beginPath(); ctx.arc(15.5, -2.6, 1.15, 0, Math.PI * 2); ctx.arc(15.5, 2.6, 1.15, 0, Math.PI * 2); ctx.fill();
         ctx.shadowBlur = 0;
         ctx.restore();
+        }
       }
-      requestAnimationFrame(frame);
+      rafTasks.push(frame);
+    }
+  }
+
+  // Lazy-load the 3D dragon model. Canvas dragon keeps flying until the GLB is ready (and if it never is).
+  if (!dragonReduced) {
+    const wrap3d = document.getElementById("dragon3d");
+    if (wrap3d && window.customElements && customElements.whenDefined) {
+      const s = document.createElement("script");
+      s.type = "module";
+      s.src = "https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js";
+      s.onerror = () => wrap3d.remove();
+      document.head.appendChild(s);
+      customElements.whenDefined("model-viewer").then(() => {
+        const m = document.getElementById("dragonModel");
+        if (!m) return;
+        m.addEventListener("load", () => {
+          useDragon3D = true;
+          wrap3d.classList.add("ready");
+        }, { once: true });
+      }).catch(() => {});
     }
   }
 
