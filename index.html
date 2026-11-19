@@ -301,23 +301,14 @@
   .edu-meta{color:var(--muted);font-size:.7rem;margin-top:6px;line-height:1.6}
   .edu-meta a{color:var(--green);font-size:.68rem;letter-spacing:1px}
 
-  main{width:100%}
-  footer{display:flex;align-items:center;justify-content:center;min-height:56px;padding:8px 0;color:var(--muted);font-size:.8rem;text-align:center;flex-shrink:0}
+  main{width:100%;position:relative;z-index:1}
+  footer{display:flex;align-items:center;justify-content:center;min-height:56px;padding:8px 0;color:var(--muted);font-size:.8rem;text-align:center;flex-shrink:0;position:relative;z-index:1}
   .heart{display:inline-block;animation:heartbeat 1.15s ease-in-out infinite;transform-origin:center;filter:drop-shadow(0 0 6px rgba(255,77,141,.65))}
   @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.38)}28%{transform:scale(1)}42%{transform:scale(1.28)}56%{transform:scale(1)}}
   /* ===== PORTOFOLIO EFFECTS (pure CSS/JS, no libraries) ===== */
-  /* ===== LIVE BACKGROUND + RADAR + CURSOR (animated grid, scanline, radar, photo scan, custom cursor) ===== */
-  body{
-    background-image:
-      linear-gradient(rgba(0,255,136,.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,136,.05) 1px, transparent 1px);
-    background-size:56px 56px;
-    animation:gridDrift 26s linear infinite alternate;
-  }
-  @keyframes gridDrift{from{background-position:0 0,0 0}to{background-position:112px 64px,64px 112px}}
-
-  .scan-line{position:fixed;left:0;right:0;top:-6px;height:2px;z-index:60;pointer-events:none;background:linear-gradient(90deg,transparent 0%,rgba(0,255,136,.45) 22%,rgba(0,255,136,.9) 50%,rgba(0,255,136,.45) 78%,transparent 100%);opacity:0;animation:scanSweep 7s ease-in-out 1.2s infinite}
-  @keyframes scanSweep{0%{top:-6px;opacity:0}10%{opacity:.5}55%{opacity:.5}100%{top:100%;opacity:0}}
+  /* ===== MATRIX RAIN (TANZIR palette) + FIRE CURSOR + RADAR ===== */
+  .matrix-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.8}
+  .fire-fx{position:fixed;inset:0;z-index:90;pointer-events:none}
 
   /* radar rings behind hero */
   .hero{position:relative;overflow:hidden}
@@ -331,13 +322,11 @@
   .sweep{position:absolute;top:50%;left:50%;width:230px;height:230px;border-radius:50%;background:conic-gradient(from 0deg, rgba(0,255,136,.38) 0deg, rgba(0,255,136,0) 62deg);transform:translate(-50%,-50%);transform-origin:center;mix-blend-mode:screen;animation:sweepSpin 5.5s linear infinite}
   @keyframes sweepSpin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 
-  /* corner brackets + scan sweep on the photo */
+  /* corner brackets on the photo */
   .avatar-wrap{position:relative;flex-shrink:0;display:inline-flex}
   .avatar-wrap::before,.avatar-wrap::after{content:"";position:absolute;width:40px;height:40px;border:2px solid var(--green);opacity:.85;z-index:2;pointer-events:none}
   .avatar-wrap::before{top:-10px;left:-10px;border-right:0;border-bottom:0;border-top-left-radius:14px}
   .avatar-wrap::after{bottom:-10px;right:-10px;border-left:0;border-top:0;border-bottom-right-radius:14px}
-  .avatar-scan{position:absolute;left:0;right:0;height:70px;z-index:2;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(0,255,136,.45),transparent);mix-blend-mode:screen;animation:avatarScan 4.6s ease-in-out infinite}
-  @keyframes avatarScan{0%{top:-90px;opacity:0}20%{opacity:.85}55%,100%{top:115%;opacity:0}}
 
   /* floating dust in hero */
   .dust{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(0,255,136,.8);opacity:.35;z-index:0;pointer-events:none;animation:dustFloat 6s ease-in-out infinite alternate}
@@ -350,20 +339,15 @@
   .d7{left:44%;top:44%;animation-delay:-5s}
   @keyframes dustFloat{from{transform:translateY(0) scale(1);opacity:.2}to{transform:translateY(-30px) scale(1.6);opacity:.7}}
 
-  /* custom cursor (dot + delayed ring + 3 trailing sparks) */
-  .cursor-dot,.cursor-ring,.cursor-trail{position:fixed;top:0;left:0;z-index:10000;pointer-events:none;border-radius:9999px;transform:translate(-100px,-100px);will-change:transform;opacity:0;transition:opacity .25s}
-  .cursor-dot{width:12px;height:12px;background:var(--green);mix-blend-mode:difference}
-  .cursor-ring{width:38px;height:38px;border:1.5px solid rgba(0,255,136,.55);box-shadow:0 0 18px rgba(0,255,136,.22),inset 0 0 12px rgba(0,255,136,.18);transition:opacity .25s,border-color .2s,box-shadow .2s}
-  .cursor-trail{width:5px;height:5px}
-  .cursor-trail.t2{width:3.5px;height:3.5px}
-  .cursor-trail.t3{width:2px;height:2px}
-  .page-glow{position:fixed;top:0;left:0;width:560px;height:560px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(closest-side, rgba(0,255,136,.11), transparent 70%);transform:translate(-200px,-200px);will-change:transform}
+  /* fire cursor (dot + flickering ember ring; particles drawn on #fireFx canvas) */
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:10000;pointer-events:none;border-radius:9999px;transform:translate(-100px,-100px);will-change:transform;opacity:0;transition:opacity .25s}
+  .cursor-dot{width:13px;height:13px;background:radial-gradient(circle at 42% 38%, #fffbe0 0%, #ffd24a 35%, #ff7a1f 68%, #ff2d00 100%);box-shadow:0 0 14px 4px rgba(255,110,20,.85),0 0 34px rgba(255,60,0,.45)}
+  .cursor-ring{width:40px;height:40px;border:1.5px solid rgba(255,150,60,.65);box-shadow:0 0 18px rgba(255,120,35,.35),inset 0 0 12px rgba(255,130,40,.3);transition:opacity .25s,border-color .2s,box-shadow .2s;animation:ringFlame .8s ease-in-out infinite}
+  @keyframes ringFlame{0%,100%{border-color:rgba(255,150,60,.65);box-shadow:0 0 16px rgba(255,120,35,.35),inset 0 0 10px rgba(255,120,35,.3)}50%{border-color:#ffd700;box-shadow:0 0 30px rgba(255,180,40,.6),inset 0 0 18px rgba(255,150,40,.5)}}
+  .page-glow{position:fixed;top:0;left:0;width:560px;height:560px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(closest-side, rgba(255,105,35,.13), transparent 70%);transform:translate(-200px,-200px);will-change:transform}
   body.cursor-ready .cursor-dot,body.cursor-ready .cursor-ring{opacity:1}
-  body.cursor-ready .cursor-trail.t1{opacity:.62;background:var(--green)}
-  body.cursor-ready .cursor-trail.t2{opacity:.42;background:var(--green)}
-  body.cursor-ready .cursor-trail.t3{opacity:.28;background:var(--green)}
   body.cursor-ready,body.cursor-ready *{cursor:none !important}
-  body.cursor-ready .cursor-ring.hot{border-color:var(--green);box-shadow:0 0 28px rgba(0,255,136,.42),inset 0 0 16px rgba(0,255,136,.3)}
+  body.cursor-ready .cursor-ring.hot{border-color:#ffd24a;box-shadow:0 0 32px rgba(255,170,50,.6),inset 0 0 20px rgba(255,140,40,.45)}
 
   @media (max-width:900px){.radar,.dust{display:none}}
   .intro-lead{color:var(--muted);max-width:none;text-wrap:pretty}
@@ -411,8 +395,8 @@
   .tilt:hover::before{opacity:1}
   .tilt > *{position:relative;z-index:0}
 
-  @media (hover:none), (pointer:coarse), (prefers-reduced-motion:reduce){
-    .cursor-dot,.cursor-ring,.cursor-trail,.page-glow{display:none}
+  @media (hover:none), (pointer:coarse){
+    .cursor-dot,.cursor-ring,.fire-fx,.page-glow{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
@@ -424,21 +408,19 @@
     .btn,.btn:hover,.btn:focus-visible{transform:none;transition:color .2s,border-color .2s}
     body::after{background:none}
     body{animation:none}
-    .scan-line,.radar,.dust,.avatar-scan{display:none}
-    .cursor-dot,.cursor-ring,.cursor-trail{display:none}
+    .matrix-bg,.fire-fx,.radar,.dust{display:none}
+    .cursor-dot,.cursor-ring,.fire-fx,.page-glow{display:none}
   }
 </style>
 </head>
 <body>
 
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="scan-line" id="scanLine" aria-hidden="true"></div>
+<canvas class="matrix-bg" id="matrixBg" aria-hidden="true"></canvas>
 <div class="page-glow" id="pageGlow" aria-hidden="true"></div>
+<canvas class="fire-fx" id="fireFx" aria-hidden="true"></canvas>
 <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
-<div class="cursor-trail t1" id="cursorT1" aria-hidden="true"></div>
-<div class="cursor-trail t2" id="cursorT2" aria-hidden="true"></div>
-<div class="cursor-trail t3" id="cursorT3" aria-hidden="true"></div>
 
 <header>
   <div class="wrap nav">
@@ -490,7 +472,6 @@
       </div>
       <span class="avatar-wrap">
         <img class="avatar" src="assets/tanzir.jpg" alt="AKM Tanzir Ahmed — CS Engineer & ERP Analyst" width="720" height="626" fetchpriority="high" decoding="async">
-        <span class="avatar-scan" aria-hidden="true"></span>
       </span>
     </div>
   </div>
@@ -788,18 +769,121 @@
       <div class="stack">${p.stack.map(s => `<span class="tag2">${s}</span>`).join("")}${p.demo ? `<a class="tag2 tag-live" href="${p.demo}" target="_blank" rel="noopener noreferrer">LIVE ↗</a>` : ""}</div>
     </div>`).join("");
 
-  // ===== Custom cursor (dot + lerped ring + trailing sparks; fine pointers only) =====
+  // ===== Matrix rain (TANZIR palette) + Fire cursor =====
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+  const coarsePointer = window.matchMedia("(hover:none), (pointer:coarse)").matches;
+
+  // ---------- Matrix digital rain, coloured from the TANZIR palette ----------
+  (function matrixRain(){
+    const canvas = document.getElementById("matrixBg");
+    if (!canvas || reduceMotion || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    const palette = ["#00ff88","#ff4d4d","#35a2ff","#ffd700","#e6edf3","#ff8c1a"];
+    const glyphs = "TANZIR0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ";
+    let W = 0, H = 0, cols = [], fontSize = 16, last = 0;
+    function resize(){
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fontSize = W < 640 ? 14 : 15;
+      cols = new Array(Math.floor(W / fontSize) + 1).fill(0).map(() => Math.random() * (H / fontSize));
+      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+    function frame(t){
+      requestAnimationFrame(frame);
+      if (t - last < 46) return;
+      last = t;
+      ctx.fillStyle = "rgba(0,0,0,0.032)";
+      ctx.fillRect(0, 0, W, H);
+      ctx.font = fontSize + "px 'JetBrains Mono','Cascadia Code',Consolas,monospace";
+      ctx.shadowBlur = 0;
+      for (let i = 0; i < cols.length; i++){
+        const ch = glyphs[(Math.random() * glyphs.length) | 0];
+        const y = cols[i];
+        const color = palette[(Math.random() * palette.length) | 0];
+        if (Math.random() < 0.09){ ctx.shadowColor = color; ctx.shadowBlur = 14; ctx.fillStyle = "#ffffff"; } else { ctx.fillStyle = color; }
+        ctx.globalAlpha = 0.85 + Math.random() * 0.15;
+        ctx.fillText(ch, i * fontSize, y * fontSize);
+        ctx.shadowBlur = 0;
+        if (y * fontSize > H && Math.random() > 0.972) cols[i] = 0; else cols[i] += 1;
+      }
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  // ---------- Fire embers emitted by the pointer ----------
+  (function fireFx(){
+    const canvas = document.getElementById("fireFx");
+    if (!canvas || reduceMotion || coarsePointer || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    let W = 0, H = 0;
+    function resize(){
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+    const parts = [];
+    let mx = -200, my = -200, lastEmit = 0;
+    function emit(x, y, n){
+      for (let i = 0; i < n; i++){
+        if (parts.length > 320) parts.shift();
+        parts.push({
+          x: x + (Math.random() - 0.5) * 16,
+          y: y + (Math.random() - 0.5) * 8,
+          vx: (Math.random() - 0.5) * 1.7,
+          vy: -(0.9 + Math.random() * 2.1),
+          r: 2.5 + Math.random() * 6.5,
+          life: 1,
+          decay: 0.010 + Math.random() * 0.016,
+          hue: 10 + Math.random() * 35
+        });
+      }
+    }
+    document.addEventListener("mousemove", e => {
+      mx = e.clientX; my = e.clientY;
+      const now = performance.now();
+      if (now - lastEmit > 14){ emit(mx, my, 4); lastEmit = now; }
+    }, { passive: true });
+    function frame(){
+      requestAnimationFrame(frame);
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "lighter";
+      if (Math.random() < 0.3 && parts.length < 320) emit(mx, my, 1);
+      for (let i = parts.length - 1; i >= 0; i--){
+        const p = parts[i];
+        p.x += p.vx; p.y += p.vy; p.vy -= 0.018; p.vx *= 0.985;
+        p.life -= p.decay; p.r *= 0.986;
+        if (p.life <= 0.02 || p.r < 0.5){ parts.splice(i, 1); continue; }
+        const a = Math.max(0, Math.min(1, p.life));
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+        g.addColorStop(0, "hsla(60,100%,74%," + a + ")");
+        g.addColorStop(0.3, "hsla(33,100%,58%," + a + ")");
+        g.addColorStop(0.72, "hsla(11,95%,46%," + (a * 0.75) + ")");
+        g.addColorStop(1, "hsla(0,90%,32%,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalCompositeOperation = "source-over";
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  // ---------- Fire cursor dot + flickering ember ring ----------
   if (finePointer && !reduceMotion) {
     const dot = document.getElementById("cursorDot");
     const ring = document.getElementById("cursorRing");
     const glow = document.getElementById("pageGlow");
-    const t1 = document.getElementById("cursorT1");
-    const t2 = document.getElementById("cursorT2");
-    const t3 = document.getElementById("cursorT3");
     let mx = -100, my = -100, rx = -100, ry = -100;
-    const p1 = { x: -100, y: -100 }, p2 = { x: -100, y: -100 }, p3 = { x: -100, y: -100 };
     const HOT = "a,button,input,textarea,select,option,label,.hamburger,.cert-item-head,.skill,.tag2,.quick-card,.btn";
     document.addEventListener("mousemove", e => {
       mx = e.clientX; my = e.clientY;
@@ -813,12 +897,6 @@
     (function cursorLoop(){
       rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
       ring.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
-      p1.x += (rx - p1.x) * 0.34; p1.y += (ry - p1.y) * 0.34;
-      p2.x += (p1.x - p2.x) * 0.31; p2.y += (p1.y - p2.y) * 0.31;
-      p3.x += (p2.x - p3.x) * 0.28; p3.y += (p2.y - p3.y) * 0.28;
-      t1.style.transform = "translate(" + p1.x + "px," + p1.y + "px) translate(-50%,-50%)";
-      t2.style.transform = "translate(" + p2.x + "px," + p2.y + "px) translate(-50%,-50%)";
-      t3.style.transform = "translate(" + p3.x + "px," + p3.y + "px) translate(-50%,-50%)";
       requestAnimationFrame(cursorLoop);
     })();
   }
