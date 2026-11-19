@@ -351,6 +351,12 @@
   body.cursor-ready .cursor-ring.hot{border-color:#ffd24a;box-shadow:0 0 32px rgba(255,170,50,.6),inset 0 0 20px rgba(255,140,40,.45)}
 
   @media (max-width:900px){.radar,.dust{display:none}}
+
+  /* ===== RED DRAGON — flies autonomously, breathes fire on random words ===== */
+  .dragon-fx{position:fixed;inset:0;z-index:94;pointer-events:none}
+  .burn-word{border-radius:2px;transition:color .35s,background .35s,text-shadow .35s,filter .35s}
+  .burn-word.burning{color:#ffe066 !important;background:linear-gradient(180deg, rgba(255,110,0,0) 25%, rgba(255,90,0,.34) 70%, rgba(255,25,0,.45) 100%);text-shadow:0 0 6px rgba(255,175,45,.95),0 0 15px rgba(255,95,0,.9),0 0 28px rgba(255,30,0,.7);animation:burnFlick .16s infinite alternate}
+  @keyframes burnFlick{from{filter:brightness(.92) saturate(1)}to{filter:brightness(1.3) saturate(1.35)}}
   .intro-lead{color:var(--muted);max-width:none;text-wrap:pretty}
   .intro-lead b{color:var(--text)}
   @media (max-width:900px){.intro-lead{max-width:62ch}}
@@ -409,7 +415,7 @@
     .btn,.btn:hover,.btn:focus-visible{transform:none;transition:color .2s,border-color .2s}
     body::after{background:none}
     body{animation:none}
-    .matrix-bg,.fire-fx,.radar,.dust{display:none}
+    .matrix-bg,.fire-fx,.radar,.dust,.dragon-fx{display:none}
     .cursor-dot,.cursor-ring,.fire-fx,.page-glow{display:none}
   }
 </style>
@@ -421,6 +427,7 @@
 <div class="scrim" aria-hidden="true"></div>
 <div class="page-glow" id="pageGlow" aria-hidden="true"></div>
 <canvas class="fire-fx" id="fireFx" aria-hidden="true"></canvas>
+<canvas class="dragon-fx" id="dragonFx" aria-hidden="true"></canvas>
 <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
@@ -903,6 +910,203 @@
       ring.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
       requestAnimationFrame(cursorLoop);
     })();
+  }
+
+  // ===== RED DRAGON — not a mouse: it flies itself, hunts random words, breathes fire (3s, then the word recovers) =====
+  const dragonReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!dragonReduced) {
+    const root = document.querySelector("main");
+    if (root) {
+      // wrap every visible word so the dragon has targets
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          const p = node.parentElement;
+          if (!p) return NodeFilter.FILTER_REJECT;
+          if (/^(SCRIPT|STYLE|TEXTAREA|INPUT|SELECT|NOSCRIPT|SVG)$/.test(p.tagName)) return NodeFilter.FILTER_REJECT;
+          if (p.closest(".burn-word")) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      const textNodes = [];
+      while (walker.nextNode()) textNodes.push(walker.currentNode);
+      textNodes.forEach(node => {
+        const frag = document.createDocumentFragment();
+        node.nodeValue.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          const span = document.createElement("span");
+          span.className = "burn-word";
+          span.textContent = part;
+          frag.appendChild(span);
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+    }
+
+    const canvas = document.getElementById("dragonFx");
+    if (canvas && canvas.getContext) {
+      const ctx = canvas.getContext("2d");
+      let W = 0, H = 0;
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        W = window.innerWidth; H = window.innerHeight;
+        canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      const wordEls = [...document.querySelectorAll(".burn-word")];
+      const bursts = [];
+      const spine = [];
+      let x = -90, y = H * 0.32, heading = 0.15, target = null, flap = 0;
+      const TURN = 0.075, SPEED = 3.4;
+
+      function pickWord() {
+        const free = wordEls.filter(el => !el.classList.contains("burning") && el.offsetParent !== null);
+        if (!free.length) return null;
+        return free[(Math.random() * free.length) | 0];
+      }
+      function flameBurst(px, py, dir) {
+        for (let i = 0; i < 46; i++) {
+          const a = dir + (Math.random() - 0.5) * 1.6;
+          const s = 2 + Math.random() * 5.5;
+          bursts.push({
+            x: px, y: py,
+            vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+            r: 2.5 + Math.random() * 5.5,
+            life: 1, decay: 0.011 + Math.random() * 0.017,
+            hue: 4 + Math.random() * 46
+          });
+        }
+      }
+      function bite(el, px, py, dir) {
+        flameBurst(px, py, dir);
+        el.classList.add("burning");
+        setTimeout(() => el.classList.remove("burning"), 3000);   // recovers after 3s
+      }
+      function frame(t) {
+        requestAnimationFrame(frame);
+        ctx.clearRect(0, 0, W, H);
+        flap += 0.16;
+
+        if (!target) target = pickWord();
+        if (target) {
+          const r = target.getBoundingClientRect();
+          const tx = r.left + r.width / 2, ty = r.top + r.height / 2;
+          const desired = Math.atan2(ty - y, tx - x);
+          let diff = desired - heading;
+          while (diff > Math.PI) diff -= 2 * Math.PI;
+          while (diff < -Math.PI) diff += 2 * Math.PI;
+          heading += Math.max(-TURN, Math.min(TURN, diff));
+          if (Math.hypot(tx - x, ty - y) < 30) { bite(target, tx, ty, heading); target = null; }
+        } else {
+          heading += Math.sin(t * 0.0009) * 0.012;
+        }
+        x += Math.cos(heading) * SPEED;
+        y += Math.sin(heading) * SPEED + Math.sin(t * 0.003) * 0.4;
+        if (x < -70) heading = 0; else if (x > W + 70) heading = Math.PI;
+        if (y < 14) heading = Math.PI / 2; else if (y > H - 14) heading = -Math.PI / 2;
+
+        spine.unshift({ x, y });
+        if (spine.length > 42) spine.pop();
+
+        // fire bursts (under the dragon, additive)
+        ctx.globalCompositeOperation = "lighter";
+        for (let i = bursts.length - 1; i >= 0; i--) {
+          const p = bursts[i];
+          p.x += p.vx; p.y += p.vy; p.vy += 0.028; p.vx *= 0.985;
+          p.life -= p.decay; p.r *= 0.985;
+          if (p.life <= 0.02 || p.r < 0.5) { bursts.splice(i, 1); continue; }
+          const a = Math.max(0, Math.min(1, p.life));
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+          g.addColorStop(0, "hsla(58,100%,72%," + a + ")");
+          g.addColorStop(0.35, "hsla(30,100%,55%," + a + ")");
+          g.addColorStop(0.75, "hsla(10,95%,45%," + (a * 0.72) + ")");
+          g.addColorStop(1, "hsla(0,90%,30%,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.globalCompositeOperation = "source-over";
+
+        // body: tapered segments, tail -> head
+        for (let i = spine.length - 1; i >= 1; i--) {
+          const p = spine[i];
+          const k = i / spine.length;
+          const rad = 2.3 + (1 - k) * 9;
+          const light = 62 - k * 36;
+          ctx.fillStyle = "hsl(6, 86%, " + light.toFixed(1) + "%)";
+          ctx.beginPath(); ctx.arc(p.x, p.y, rad, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "hsla(28, 100%, 64%, " + (0.4 * (1 - k)).toFixed(2) + ")";
+          ctx.beginPath(); ctx.arc(p.x, p.y + rad * 0.42, rad * 0.55, 0, Math.PI * 2); ctx.fill();
+        }
+        // dorsal spikes, alternating sides
+        for (let i = 5; i < spine.length; i += 4) {
+          const p = spine[i];
+          const q = spine[i - 1] || spine[0];
+          const a = Math.atan2(p.y - q.y, p.x - q.x);
+          const side = (i / 4) % 2 === 0 ? 1 : -1;
+          const nx = Math.cos(a + side * Math.PI / 2), ny = Math.sin(a + side * Math.PI / 2);
+          ctx.fillStyle = "hsl(0, 74%, 34%)";
+          ctx.beginPath();
+          ctx.moveTo(p.x - Math.cos(a) * 4, p.y - Math.sin(a) * 4);
+          ctx.lineTo(p.x + Math.cos(a) * 4, p.y + Math.sin(a) * 4);
+          ctx.lineTo(p.x + nx * 9.5, p.y + ny * 9.5);
+          ctx.closePath(); ctx.fill();
+        }
+
+        // wings at the 1/4 point, flapping
+        const wIdx = Math.min(8, spine.length - 1);
+        if (spine[wIdx]) {
+          const wp = spine[wIdx];
+          const ahead = spine[Math.max(0, wIdx - 1)];
+          const angle = Math.atan2(wp.y - ahead.y, wp.x - ahead.x);
+          const flapRot = Math.sin(flap) * 0.85;
+          for (const side of [1, -1]) {
+            ctx.save();
+            ctx.translate(wp.x, wp.y);
+            ctx.rotate(angle + side * Math.PI / 2 + side * flapRot * 0.55);
+            ctx.fillStyle = "hsl(0, 76%, 24%)";
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(22, -18);
+            ctx.lineTo(38, -6);
+            ctx.lineTo(14, 10);
+            ctx.closePath(); ctx.fill();
+            ctx.fillStyle = "hsl(4, 80%, 40%)";
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(17, -10);
+            ctx.lineTo(26, -3);
+            ctx.closePath(); ctx.fill();
+            ctx.restore();
+          }
+        }
+
+        // head: wedge snout, horns, glowing eyes, hot nostrils
+        const head = spine[0];
+        ctx.save();
+        ctx.translate(head.x, head.y);
+        ctx.rotate(heading);
+        ctx.fillStyle = "hsl(4, 88%, 52%)";
+        ctx.beginPath();
+        ctx.moveTo(18, 0); ctx.lineTo(2, -8); ctx.lineTo(2, 8); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = "hsl(6, 86%, 45%)";
+        ctx.beginPath(); ctx.arc(0, 0, 11.5, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = "hsl(40, 62%, 80%)"; ctx.lineWidth = 2.2; ctx.lineCap = "round";
+        ctx.beginPath(); ctx.moveTo(-2, -7); ctx.lineTo(-13, -14); ctx.moveTo(-2, 7); ctx.lineTo(-13, 14); ctx.stroke();
+        ctx.fillStyle = "#ffd24a";
+        ctx.shadowColor = "#ff8c1a"; ctx.shadowBlur = 9;
+        ctx.beginPath(); ctx.arc(4, -4.6, 2.1, 0, Math.PI * 2); ctx.arc(4, 4.6, 2.1, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "hsl(20, 100%, 64%)";
+        ctx.shadowColor = "#ff5a1f";
+        ctx.beginPath(); ctx.arc(15.5, -2.6, 1.15, 0, Math.PI * 2); ctx.arc(15.5, 2.6, 1.15, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.restore();
+      }
+      requestAnimationFrame(frame);
+    }
   }
 
   // ===== Scroll reveal + card tilt (pure JS, no libraries) =====
