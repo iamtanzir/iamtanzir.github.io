@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Fly a 3D red dragon — WASD to fly, Q/E to climb and dive, Space for fire breath. Built with three.js.">
+<title>RED DRAGON — Flight</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
+<style>
+  body{margin:0;overflow:hidden;background:#101827;font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace}
+  canvas{display:block}
+  .hud{position:fixed;bottom:20px;left:20px;color:#e8edf3;background:rgba(0,0,0,.65);border:1px solid #1c2433;border-radius:10px;padding:14px 16px;line-height:1.9;pointer-events:none;font-size:.72rem;letter-spacing:.4px;backdrop-filter:blur(6px);z-index:5}
+  .hud b{color:#00ff88}
+  .hud .k{color:#ffd24a;display:inline-block;min-width:62px}
+  .back{position:fixed;top:16px;left:16px;z-index:5;color:#00ff88;text-decoration:none;font-size:.72rem;letter-spacing:1.5px;border:1px solid rgba(0,255,136,.35);border-radius:6px;padding:8px 14px;background:rgba(0,0,0,.5);backdrop-filter:blur(6px)}
+  .back:hover{border-color:#00ff88;box-shadow:0 0 16px rgba(0,255,136,.3)}
+  .brand{position:fixed;top:16px;right:16px;z-index:5;color:#ff6a3d;font-size:.72rem;letter-spacing:3px;text-shadow:0 0 12px rgba(255,80,30,.6);pointer-events:none}
+  .brand small{display:block;color:#8b98a9;font-size:.55rem;letter-spacing:2px;margin-top:3px}
+</style>
+<script type="importmap">{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+}}</script>
+</head>
+<body>
+
+<a class="back" href="./">← IAMTANZIR.GITHUB.IO</a>
+<div class="brand">🐉 RED DRAGON<small>FLIGHT · THREE.JS · GLB</small></div>
+
+<div class="hud">
+  <div><b>RED DRAGON — CONTROLS</b></div>
+  <div><span class="k">W / ↑</span> accelerate forward</div>
+  <div><span class="k">S / ↓</span> brake / reverse</div>
+  <div><span class="k">A / ←</span> turn left</div>
+  <div><span class="k">D / →</span> turn right</div>
+  <div><span class="k">Q</span> climb &nbsp;·&nbsp; <span class="k">E</span> dive</div>
+  <div><span class="k">SPACE</span> 🔥 fire breath</div>
+  <div><span class="k">MOUSE</span> drag to orbit · scroll to zoom</div>
+</div>
+
+<script type="module" src="dragon.js"></script>
+</body>
+</html>
