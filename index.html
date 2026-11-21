@@ -165,8 +165,26 @@
   .role{margin-top:6px;color:var(--muted);font-size:1.05rem}
   .clock{margin-top:10px}
   .clock small{color:var(--muted);font-size:.72rem;letter-spacing:2px;display:block;margin-top:6px}
-  .svg-clock{width:100%;max-width:220px;background:#001a08;border:1px solid rgba(0,255,65,.2);border-radius:4px;box-shadow:0 0 24px rgba(0,255,65,.12)}
-  .svg-clock svg{width:100%;height:auto;display:block}
+  /* LED clock — pure HTML/CSS, no SVG, no external request */
+  .seg-clock{display:inline-flex;align-items:center;gap:0;background:#001a08;border:1px solid rgba(0,255,65,.22);border-radius:4px;padding:5px 7px;box-shadow:0 0 24px rgba(0,255,65,.12);width:220px;max-width:100%}
+  .seg-digit{position:relative;width:24px;height:48px;margin-right:2px;flex-shrink:0}
+  .seg-digit i{position:absolute;display:block;background:rgba(0,43,13,.9);border-radius:1px}
+  .seg-digit i.on{background:#00ff41;box-shadow:0 0 6px rgba(0,255,65,.85),0 0 14px rgba(0,255,65,.45)}
+  .seg-digit i.a,.seg-digit i.d,.seg-digit i.g{left:4px;width:16px;height:5px;clip-path:polygon(3px 0,calc(100% - 3px) 0,100% 50%,calc(100% - 3px) 100%,3px 100%,0 50%)}
+  .seg-digit i.a{top:0}
+  .seg-digit i.g{top:21.5px}
+  .seg-digit i.d{bottom:0}
+  .seg-digit i.b,.seg-digit i.c{right:0;width:5px;height:19px;clip-path:polygon(0 3px,50% 0,100% 3px,100% calc(100% - 3px),50% 100%,0 calc(100% - 3px))}
+  .seg-digit i.b{top:3px}
+  .seg-digit i.c{bottom:3px}
+  .seg-digit i.e,.seg-digit i.f{left:0;width:5px;height:19px;clip-path:polygon(0 3px,50% 0,100% 3px,100% calc(100% - 3px),50% 100%,0 calc(100% - 3px))}
+  .seg-digit i.f{top:3px}
+  .seg-digit i.e{bottom:3px}
+  .seg-colon{display:flex;flex-direction:column;justify-content:center;gap:13px;height:48px;padding:0 4px;flex-shrink:0}
+  .seg-colon b{width:5px;height:5px;border-radius:50%;background:#00ff41;box-shadow:0 0 7px rgba(0,255,65,.9);display:block}
+  .seg-period{margin-left:auto;display:flex;flex-direction:column;line-height:1.15;text-align:left;flex-shrink:0}
+  .seg-period span{font-size:9px;font-weight:700;font-family:monospace;color:#002b0d;letter-spacing:1px}
+  .seg-period span.on{color:#00ff41;text-shadow:0 0 8px rgba(0,255,65,.85)}
   .cta{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
   .btn{position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 26px;border-radius:999px;border:1px solid rgba(0,255,136,.3);color:var(--green);font-size:.82rem;letter-spacing:1.2px;text-decoration:none;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.03));-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -14px 26px rgba(0,255,136,.10),0 10px 30px rgba(0,0,0,.5);transition:color .25s,border-color .25s,box-shadow .25s,transform .25s;overflow:hidden}
   .btn::before{content:"";position:absolute;z-index:-1;left:50%;bottom:-42%;width:62%;height:125%;transform:translateX(-50%);border-radius:999px;background:radial-gradient(closest-side,rgba(0,255,136,.95),rgba(0,255,136,0));filter:blur(16px);opacity:.7;transition:width .45s ease,opacity .45s ease}
@@ -227,7 +245,7 @@
     .cta{flex-direction:column;align-items:stretch;width:100%}
     .btn{width:100%}
   }
-  @media (max-width:480px){.hero-inner{gap:16px}.avatar{width:min(52vw,190px)}.role{font-size:.8rem}.svg-clock{max-width:170px}}
+  @media (max-width:480px){.hero-inner{gap:16px}.avatar{width:min(52vw,190px)}.role{font-size:.8rem}.seg-clock{width:180px}}
   .card{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;transition:border-color .2s,box-shadow .2s}
   .card:hover{border-color:var(--green)}
   .card h3{font-size:.95rem;letter-spacing:.5px;overflow-wrap:anywhere}
@@ -466,7 +484,7 @@
           <div class="stat"><b>10+</b>global buyer programs</div>
         </div>
         <div class="clock">
-          <div class="svg-clock" id="segClock" aria-hidden="true"></div>
+          <div class="seg-clock" id="segClock" aria-hidden="true"></div>
           <span id="dhaka-time" class="sr-only">--:--:-- --</span>
           <small>DHAKA · BST · UTC+06:00</small>
         </div>
@@ -1098,7 +1116,7 @@
     if (lfBadge.complete && lfBadge.naturalWidth === 0) swapToWorker();
   }
 
-  // Live Dhaka clock — self-contained seven-segment LED (no external requests; works offline)
+  // Live Dhaka clock — pure HTML/CSS seven-segment LED (no SVG, no network, permanent)
   const dhakaTime = document.getElementById("dhaka-time");
   const dhakaFmt = new Intl.DateTimeFormat("en-US", {
     timeZone: "Asia/Dhaka",
@@ -1108,64 +1126,34 @@
     "0":"abcdef", "1":"bc", "2":"abged", "3":"abgcd", "4":"fgbc",
     "5":"afgcd", "6":"afgecd", "7":"abc", "8":"abcdefg", "9":"abfgcd"
   };
-  const SEG_POINTS = [
-    "12,6 48,6 42,12 18,12",
-    "48,6 54,12 54,48 48,54 42,48 42,12",
-    "54,54 54,90 48,96 42,90 42,54 48,48",
-    "18,96 42,96 48,90 42,84 18,84 12,90",
-    "6,54 12,48 18,54 18,90 12,96 6,90",
-    "6,12 12,6 18,12 18,48 12,54 6,48",
-    "18,48 42,48 48,54 42,60 18,60 12,54"
-  ]; // a b c d e f g
-  const HUE = "#00ff41", DIM = "#002b0d", BG = "#001a08";
-  const svgRoot = document.getElementById("segClock");
-  const SVGNS = "http://www.w3.org/2000/svg";
-  const mk = (tag, attrs) => {
-    const e = document.createElementNS(SVGNS, tag);
-    for (const k in attrs) e.setAttribute(k, attrs[k]);
-    return e;
-  };
-  const litSegs = [];
-  let amText = null, pmText = null;
-  if (svgRoot) {
-    const svg = mk("svg", { viewBox: "0 0 480 120", width: "480", height: "120", role: "img", "aria-label": "Dhaka digital clock" });
-    const defs = mk("defs", {});
-    const filter = mk("filter", { id: "clockGlow", x: "-50%", y: "-50%", width: "200%", height: "200%" });
-    filter.appendChild(mk("feGaussianBlur", { stdDeviation: "2", result: "blur" }));
-    const merge = mk("feMerge", {});
-    merge.appendChild(mk("feMergeNode", { in: "blur" }));
-    merge.appendChild(mk("feMergeNode", { in: "SourceGraphic" }));
-    filter.appendChild(merge);
-    defs.appendChild(filter);
-    const pattern = mk("pattern", { id: "clockPixels", width: "4", height: "4", patternUnits: "userSpaceOnUse" });
-    pattern.appendChild(mk("circle", { cx: "2", cy: "2", r: "1.2", fill: "#000000", "fill-opacity": "0.75" }));
-    defs.appendChild(pattern);
-    svg.appendChild(defs);
-    svg.appendChild(mk("rect", { width: "480", height: "120", fill: BG }));
-    [135, 285].forEach(cx => {
-      [35, 75].forEach(cy => svg.appendChild(mk("circle", { cx, cy, r: "5", fill: HUE, filter: "url(#clockGlow)" })));
-    });
-    const xPos = [10, 70, 160, 220, 310, 370];
-    xPos.forEach(x => {
-      const g = mk("g", { transform: "translate(" + x + ", 10)" });
-      const bright = [];
-      SEG_POINTS.forEach(points => {
-        g.appendChild(mk("polygon", { points, fill: DIM }));
-        const on = mk("polygon", { points, fill: HUE, filter: "url(#clockGlow)", opacity: "0" });
-        g.appendChild(on);
-        bright.push(on);
+  const SEG_ORDER = ["a","b","c","d","e","f","g"];
+  const segRoot = document.getElementById("segClock");
+  const digitEls = [];
+  let amEl = null, pmEl = null;
+  if (segRoot) {
+    for (let i = 0; i < 6; i++) {
+      if (i === 2 || i === 4) {
+        const colon = document.createElement("span");
+        colon.className = "seg-colon";
+        colon.innerHTML = "<b></b><b></b>";
+        segRoot.appendChild(colon);
+      }
+      const digit = document.createElement("span");
+      digit.className = "seg-digit";
+      SEG_ORDER.forEach(s => {
+        const seg = document.createElement("i");
+        seg.className = s;
+        digit.appendChild(seg);
       });
-      svg.appendChild(g);
-      litSegs.push(bright);
-    });
-    amText = mk("text", { x: "440", y: "40", fill: DIM, "font-family": "monospace", "font-size": "14", "font-weight": "bold" });
-    amText.textContent = "AM";
-    pmText = mk("text", { x: "440", y: "75", fill: DIM, "font-family": "monospace", "font-size": "14", "font-weight": "bold" });
-    pmText.textContent = "PM";
-    svg.appendChild(amText);
-    svg.appendChild(pmText);
-    svg.appendChild(mk("rect", { width: "480", height: "120", fill: "url(#clockPixels)", "pointer-events": "none" }));
-    svgRoot.appendChild(svg);
+      segRoot.appendChild(digit);
+      digitEls.push(digit);
+    }
+    const period = document.createElement("span");
+    period.className = "seg-period";
+    amEl = document.createElement("span"); amEl.textContent = "AM";
+    pmEl = document.createElement("span"); pmEl.textContent = "PM";
+    period.appendChild(amEl); period.appendChild(pmEl);
+    segRoot.appendChild(period);
   }
   function tick() {
     const parts = dhakaFmt.formatToParts(new Date());
@@ -1174,12 +1162,12 @@
     const period = get("dayPeriod").toUpperCase();
     if (dhakaTime) dhakaTime.textContent = h + ":" + m + ":" + s + " " + period;
     const chars = (h + m + s).split("");
-    litSegs.forEach((bright, i) => {
+    digitEls.forEach((digit, i) => {
       const map = DIGIT_SEGS[chars[i]] || "";
-      bright.forEach((seg, k) => seg.setAttribute("opacity", map.indexOf("abcdefg"[k]) !== -1 ? "1" : "0"));
+      digit.querySelectorAll("i").forEach(seg => seg.classList.toggle("on", map.indexOf(seg.className) !== -1));
     });
-    if (amText) { amText.setAttribute("fill", period === "AM" ? HUE : DIM); amText.setAttribute("filter", period === "AM" ? "url(#clockGlow)" : "none"); }
-    if (pmText) { pmText.setAttribute("fill", period === "PM" ? HUE : DIM); pmText.setAttribute("filter", period === "PM" ? "url(#clockGlow)" : "none"); }
+    if (amEl) amEl.classList.toggle("on", period === "AM");
+    if (pmEl) pmEl.classList.toggle("on", period === "PM");
   }
   tick();
   setInterval(tick, 1000);
