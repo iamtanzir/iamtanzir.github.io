@@ -163,8 +163,9 @@
   h1 .accent{background:linear-gradient(110deg,#00ff88 20%,#8dffc8 36%,#00c96d 50%,#00ff88 66%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheenText 3.4s linear infinite}
   @keyframes sheenText{0%{background-position:0% 50%}100%{background-position:-220% 50%}}
   .role{margin-top:6px;color:var(--muted);font-size:1.05rem}
-  .clock{margin-top:12px;font-size:1.3rem;color:var(--green);letter-spacing:3px}
-  .clock small{color:var(--muted);font-size:.72rem;letter-spacing:2px;display:block;margin-top:2px}
+  .clock{margin-top:10px}
+  .clock small{color:var(--muted);font-size:.72rem;letter-spacing:2px;display:block;margin-top:6px}
+  .svg-clock{width:100%;max-width:300px;height:auto;display:block;background:#001a08;border:1px solid rgba(0,255,65,.2);border-radius:4px;box-shadow:0 0 24px rgba(0,255,65,.12)}
   .cta{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
   .btn{position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 26px;border-radius:999px;border:1px solid rgba(0,255,136,.3);color:var(--green);font-size:.82rem;letter-spacing:1.2px;text-decoration:none;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.03));-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -14px 26px rgba(0,255,136,.10),0 10px 30px rgba(0,0,0,.5);transition:color .25s,border-color .25s,box-shadow .25s,transform .25s;overflow:hidden}
   .btn::before{content:"";position:absolute;z-index:-1;left:50%;bottom:-42%;width:62%;height:125%;transform:translateX(-50%);border-radius:999px;background:radial-gradient(closest-side,rgba(0,255,136,.95),rgba(0,255,136,0));filter:blur(16px);opacity:.7;transition:width .45s ease,opacity .45s ease}
@@ -225,7 +226,7 @@
     .cta{flex-direction:column;align-items:stretch;width:100%}
     .btn{width:100%}
   }
-  @media (max-width:480px){.hero-inner{gap:16px}.avatar{width:min(52vw,190px)}.role{font-size:.8rem}.clock{font-size:1.1rem}}
+  @media (max-width:480px){.hero-inner{gap:16px}.avatar{width:min(52vw,190px)}.role{font-size:.8rem}.svg-clock{max-width:230px}}
   .card{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;transition:border-color .2s,box-shadow .2s}
   .card:hover{border-color:var(--green)}
   .card h3{font-size:.95rem;letter-spacing:.5px;overflow-wrap:anywhere}
@@ -463,7 +464,11 @@
           <div class="stat"><b>95%+</b>on-time delivery</div>
           <div class="stat"><b>10+</b>global buyer programs</div>
         </div>
-        <div class="clock"><span id="dhaka-time">--:--:--</span><small>DHAKA · BST · UTC+06:00</small></div>
+        <div class="clock">
+          <img class="svg-clock" id="liveClock" src="https://live-clock.tanzir-ahmed.workers.dev/" alt="Live Dhaka digital clock" width="480" height="120" decoding="async">
+          <span id="dhaka-time" class="sr-only">--:--:-- --</span>
+          <small>DHAKA · BST · UTC+06:00</small>
+        </div>
         <div class="cta">
           <a class="btn" href="https://github.com/iamtanzir" target="_blank" rel="noopener noreferrer">GitHub →</a>
           <a class="btn ghost" href="https://www.linkedin.com/in/akm-tanzir-ahmed" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -1092,17 +1097,23 @@
     if (lfBadge.complete && lfBadge.naturalWidth === 0) swapToWorker();
   }
 
-  // Live Dhaka clock (Asia/Dhaka, UTC+06:00, no DST)
+  // Live Dhaka clock — hosted SVG clock from the owner's Worker (pure image, no SVG markup here)
   const dhakaTime = document.getElementById("dhaka-time");
   const dhakaFmt = new Intl.DateTimeFormat("en-US", {
     timeZone: "Asia/Dhaka",
-    hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true
+    hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true
   });
   function tick() {
     if (dhakaTime) dhakaTime.textContent = dhakaFmt.format(new Date());
   }
   tick();
   setInterval(tick, 1000);
+
+  // refresh the hosted clock each minute so the server-generated timer offsets never drift
+  const liveClock = document.getElementById("liveClock");
+  if (liveClock) {
+    setInterval(() => { liveClock.src = "https://live-clock.tanzir-ahmed.workers.dev/?t=" + Date.now(); }, 60000);
+  }
 </script>
 </body>
 </html>
