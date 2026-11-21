@@ -166,6 +166,7 @@
   .clock{margin-top:10px}
   .clock small{color:var(--muted);font-size:.72rem;letter-spacing:2px;display:block;margin-top:6px}
   /* LED clock — pure HTML/CSS, no SVG, no external request */
+  .svg-clock{display:block;width:220px;max-width:100%;height:auto;border:1px solid rgba(0,255,65,.22);border-radius:4px;background:#001a08;box-shadow:0 0 24px rgba(0,255,65,.12)}
   .seg-clock{display:inline-flex;align-items:center;gap:0;background:#001a08;border:1px solid rgba(0,255,65,.22);border-radius:4px;padding:5px 7px;box-shadow:0 0 24px rgba(0,255,65,.12);width:220px;max-width:100%}
   .seg-digit{position:relative;width:24px;height:48px;margin-right:2px;flex-shrink:0}
   .seg-digit i{position:absolute;display:block;background:rgba(0,43,13,.9);border-radius:1px}
@@ -484,7 +485,8 @@
           <div class="stat"><b>10+</b>global buyer programs</div>
         </div>
         <div class="clock">
-          <div class="seg-clock" id="segClock" aria-hidden="true"></div>
+          <img class="svg-clock" id="liveClock" src="https://live-clock.tanzir-ahmed.workers.dev/" alt="Live Dhaka digital clock" width="480" height="120" decoding="async">
+          <div class="seg-clock" id="segClock" aria-hidden="true" hidden></div>
           <span id="dhaka-time" class="sr-only">--:--:-- --</span>
           <small>DHAKA · BST · UTC+06:00</small>
         </div>
@@ -1171,6 +1173,17 @@
   }
   tick();
   setInterval(tick, 1000);
+
+  // Fallback swap: worker SVG clock on top, CSS seg-clock if the worker image fails.
+  const liveClock = document.getElementById("liveClock");
+  if (liveClock && segRoot) {
+    segRoot.style.display = "none";
+    liveClock.addEventListener("error", () => {
+      segRoot.style.display = "";
+      liveClock.style.display = "none";
+      tick();
+    }, { once: true });
+  }
 </script>
 </body>
 </html>
