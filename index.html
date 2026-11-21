@@ -465,7 +465,7 @@
           <div class="stat"><b>10+</b>global buyer programs</div>
         </div>
         <div class="clock">
-          <img class="svg-clock" id="liveClock" src="https://live-clock.tanzir-ahmed.workers.dev/" alt="Live Dhaka digital clock" width="480" height="120" decoding="async">
+          <div class="svg-clock" id="segClock" aria-hidden="true"></div>
           <span id="dhaka-time" class="sr-only">--:--:-- --</span>
           <small>DHAKA · BST · UTC+06:00</small>
         </div>
@@ -1097,23 +1097,91 @@
     if (lfBadge.complete && lfBadge.naturalWidth === 0) swapToWorker();
   }
 
-  // Live Dhaka clock — hosted SVG clock from the owner's Worker (pure image, no SVG markup here)
+  // Live Dhaka clock — self-contained seven-segment LED (no external requests; works offline)
   const dhakaTime = document.getElementById("dhaka-time");
   const dhakaFmt = new Intl.DateTimeFormat("en-US", {
     timeZone: "Asia/Dhaka",
     hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true
   });
+  const DIGIT_SEGS = {
+    "0":"abcdef", "1":"bc", "2":"abged", "3":"abgcd", "4":"fgbc",
+    "5":"afgcd", "6":"afgecd", "7":"abc", "8":"abcdefg", "9":"abfgcd"
+  };
+  const SEG_POINTS = [
+    "12,6 48,6 42,12 18,12",
+    "48,6 54,12 54,48 48,54 42,48 42,12",
+    "54,54 54,90 48,96 42,90 42,54 48,48",
+    "18,96 42,96 48,90 42,84 18,84 12,90",
+    "6,54 12,48 18,54 18,90 12,96 6,90",
+    "6,12 12,6 18,12 18,48 12,54 6,48",
+    "18,48 42,48 48,54 42,60 18,60 12,54"
+  ]; // a b c d e f g
+  const HUE = "#00ff41", DIM = "#002b0d", BG = "#001a08";
+  const svgRoot = document.getElementById("segClock");
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const mk = (tag, attrs) => {
+    const e = document.createElementNS(SVGNS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  };
+  const litSegs = [];
+  let amText = null, pmText = null;
+  if (svgRoot) {
+    const svg = mk("svg", { viewBox: "0 0 480 120", width: "480", height: "120", role: "img", "aria-label": "Dhaka digital clock" });
+    const defs = mk("defs", {});
+    const filter = mk("filter", { id: "clockGlow", x: "-50%", y: "-50%", width: "200%", height: "200%" });
+    filter.appendChild(mk("feGaussianBlur", { stdDeviation: "2", result: "blur" }));
+    const merge = mk("feMerge", {});
+    merge.appendChild(mk("feMergeNode", { in: "blur" }));
+    merge.appendChild(mk("feMergeNode", { in: "SourceGraphic" }));
+    filter.appendChild(merge);
+    defs.appendChild(filter);
+    const pattern = mk("pattern", { id: "clockPixels", width: "4", height: "4", patternUnits: "userSpaceOnUse" });
+    pattern.appendChild(mk("circle", { cx: "2", cy: "2", r: "1.2", fill: "#000000", "fill-opacity": "0.75" }));
+    defs.appendChild(pattern);
+    svg.appendChild(defs);
+    svg.appendChild(mk("rect", { width: "480", height: "120", fill: BG }));
+    [135, 285].forEach(cx => {
+      [35, 75].forEach(cy => svg.appendChild(mk("circle", { cx, cy, r: "5", fill: HUE, filter: "url(#clockGlow)" })));
+    });
+    const xPos = [10, 70, 160, 220, 310, 370];
+    xPos.forEach(x => {
+      const g = mk("g", { transform: "translate(" + x + ", 10)" });
+      const bright = [];
+      SEG_POINTS.forEach(points => {
+        g.appendChild(mk("polygon", { points, fill: DIM }));
+        const on = mk("polygon", { points, fill: HUE, filter: "url(#clockGlow)", opacity: "0" });
+        g.appendChild(on);
+        bright.push(on);
+      });
+      svg.appendChild(g);
+      litSegs.push(bright);
+    });
+    amText = mk("text", { x: "440", y: "40", fill: DIM, "font-family": "monospace", "font-size": "14", "font-weight": "bold" });
+    amText.textContent = "AM";
+    pmText = mk("text", { x: "440", y: "75", fill: DIM, "font-family": "monospace", "font-size": "14", "font-weight": "bold" });
+    pmText.textContent = "PM";
+    svg.appendChild(amText);
+    svg.appendChild(pmText);
+    svg.appendChild(mk("rect", { width: "480", height: "120", fill: "url(#clockPixels)", "pointer-events": "none" }));
+    svgRoot.appendChild(svg);
+  }
   function tick() {
-    if (dhakaTime) dhakaTime.textContent = dhakaFmt.format(new Date());
+    const parts = dhakaFmt.formatToParts(new Date());
+    const get = t => (parts.find(p => p.type === t) || {}).value || "";
+    const h = get("hour").padStart(2, "0"), m = get("minute"), s = get("second");
+    const period = get("dayPeriod").toUpperCase();
+    if (dhakaTime) dhakaTime.textContent = h + ":" + m + ":" + s + " " + period;
+    const chars = (h + m + s).split("");
+    litSegs.forEach((bright, i) => {
+      const map = DIGIT_SEGS[chars[i]] || "";
+      bright.forEach((seg, k) => seg.setAttribute("opacity", map.indexOf("abcdefg"[k]) !== -1 ? "1" : "0"));
+    });
+    if (amText) { amText.setAttribute("fill", period === "AM" ? HUE : DIM); amText.setAttribute("filter", period === "AM" ? "url(#clockGlow)" : "none"); }
+    if (pmText) { pmText.setAttribute("fill", period === "PM" ? HUE : DIM); pmText.setAttribute("filter", period === "PM" ? "url(#clockGlow)" : "none"); }
   }
   tick();
   setInterval(tick, 1000);
-
-  // refresh the hosted clock each minute so the server-generated timer offsets never drift
-  const liveClock = document.getElementById("liveClock");
-  if (liveClock) {
-    setInterval(() => { liveClock.src = "https://live-clock.tanzir-ahmed.workers.dev/?t=" + Date.now(); }, 60000);
-  }
 </script>
 </body>
 </html>
